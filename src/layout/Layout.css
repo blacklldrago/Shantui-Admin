@@ -1,0 +1,37 @@
+@media screen and (min-width: 340px) {
+    .re {
+      display: block;
+    }
+    .fra {
+      display: none;
+    }
+    .fake {
+      display: none;
+    }
+    .table1 {
+      display: none;
+    }
+  }
+  @media screen and (min-width: 900px) {
+    .fake {
+      display: block;
+    }
+    .table1 {
+      display: flex;
+    }
+  
+    .re {
+      display: none;
+    }
+  }
+  @media screen and (min-width: 950px) {
+    .fra {
+      display: flex;
+    }
+  }
+  
+  .tractor {
+    position: relative;
+    bottom: 7px;
+  }
+  
