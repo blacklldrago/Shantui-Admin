@@ -10,7 +10,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useState } from "react";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
 import AccountMenu from "../components/AccountMenu";
 import AppBar from "../components/AppBar";
 import Copyright from "../components/Copyright";
@@ -63,17 +63,19 @@ export default function Layout() {
                 gap: "2px",
                 justifyContent: "center",
                 alignItems: "center",
-                marginTop:"-10px",
+                marginTop: "-10px",
                 paddingTop: "20px",
               }}
             >
-              <img
-                className="tractor"
-                src={logo}
-                height={80}
-                width={80}
-                alt=""
-              />
+              <Link to="/panel">
+                <img
+                  className="tractor"
+                  src={logo}
+                  height={80}
+                  width={80}
+                  alt=""
+                />
+              </Link>
               <Typography component="h1" variant="h4">
                 Shantui
               </Typography>
