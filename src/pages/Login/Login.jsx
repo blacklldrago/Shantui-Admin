@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import Copyright from "../../components/Copyright";
 import { saveToken } from "../../utils/token";
 import { useState } from "react";
-import logo from '../../assets/logo.png'
+import logo from "../../assets/logo.png";
 
 const defaultTheme = createTheme();
 
@@ -73,16 +73,12 @@ export default function Login() {
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: "cornsilk" }}>
-              <img height={30}  src={logo} alt="" />
+              <img height={30} src={logo} alt="" />
             </Avatar>
             <Typography component="h1" variant="h5">
               Login
             </Typography>
-            <Box
-              component="form"
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -93,7 +89,6 @@ export default function Login() {
                 autoComplete="email"
                 color="warning"
                 autoFocus
-                
               />
               <TextField
                 margin="normal"

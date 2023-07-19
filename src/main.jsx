@@ -14,18 +14,17 @@ import {
 } from "./router/router.jsx";
 import AuthCheck from "./utils/AuthCheck";
 import ProtectedRoute from "./utils/ProtectedRoute";
-import { Provider } from "react-redux";
-import { store } from "./store/store";
+import Circle from "./components/Loaders/Circle";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <AuthCheck>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Login />
-        </Suspense>
-      </AuthCheck>
+        <AuthCheck>
+          <Suspense fallback={<Circle/>}>
+            <Login />
+          </Suspense>
+        </AuthCheck>
     ),
     errorElement: (props) => {
       return <div>error</div>;
@@ -34,9 +33,11 @@ const router = createBrowserRouter([
   {
     path: "/panel",
     element: (
-        <Suspense fallback={<div>Loading...</div>}>
+      // <ProtectedRoute>
+        <Suspense fallback={<Circle/>}>
           <Layout />
         </Suspense>
+      // </ProtectedRoute>
     ),
     errorElement: (props) => {
       console.log(props);
@@ -46,7 +47,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Circle/>}>
             <Dashboard />
           </Suspense>
         ),
@@ -58,7 +59,7 @@ const router = createBrowserRouter([
       {
         path: "users",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Circle/>}>
             <Users />
           </Suspense>
         ),
@@ -70,7 +71,7 @@ const router = createBrowserRouter([
       {
         path: "products",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Circle/>}>
             <Products />
           </Suspense>
         ),
@@ -82,7 +83,7 @@ const router = createBrowserRouter([
       {
         path: "categories",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Circle/>}>
             <Categories />
           </Suspense>
         ),
@@ -94,7 +95,7 @@ const router = createBrowserRouter([
       {
         path: "subcategories",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Circle/>}>
             <SubCategories />
           </Suspense>
         ),
@@ -106,7 +107,7 @@ const router = createBrowserRouter([
       {
         path: "brands",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Circle/>}>
             <Brands />
           </Suspense>
         ),
@@ -120,7 +121,6 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <Provider store={store}>
-    <RouterProvider router={router} />
-  </Provider>
+
+  <RouterProvider router={router} />
 );
