@@ -21,6 +21,7 @@ const defaultTheme = createTheme();
 export default function Login() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorMessage("");
@@ -55,7 +56,7 @@ export default function Login() {
           item
           xs={false}
           sm={4}
-          md={7}
+          md={7}  
           sx={{
             backgroundImage:
               "url(https://source.unsplash.com/random?wallpapers)",
