@@ -1,4 +1,3 @@
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -13,39 +12,40 @@ import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import Copyright from "../../components/Copyright";
 import { saveToken } from "../../utils/token";
-import { useState } from "react";
+import React, { useState } from "react";
 import logo from "../../assets/logo.png";
-
+import { axiosLogin } from "../../utils/axiosRequest";
+import Snackbar from "@mui/material/Snackbar";
+import { Alert } from "../../components/Alert";
 const defaultTheme = createTheme();
 
 export default function Login() {
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState("");
-  
+  const [success, setSuccess] = React.useState(false);
+  const [errorm, setErrorm] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+
+  const vertical = "bottom";
+  const horizontal = "right";
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setErrorMessage("");
     let user = {
-      email: event.target["email"].value,
+      userName: event.target["userName"].value,
       password: event.target["password"].value,
     };
 
+    console.log(user);
     try {
-      const response = await fetch("http://localhost:3000/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user),
-      });
-      const data = await response.json();
+      const { data } = await axiosLogin.post("/Account/Login", user);
 
-      if (response.status >= 400) {
-        setErrorMessage(data);
-        return;
-      }
-
-      saveToken(data.accessToken, event.target["remember"].checked);
+      setSuccess(true);
+      saveToken(data.data, event.target["remember"].checked);
       navigate("/panel");
-    } catch (e) {}
+    } catch (e) {
+      setErrorm(true);
+      setMessage(data.data);
+    }
   };
 
   return (
@@ -56,14 +56,43 @@ export default function Login() {
           item
           xs={false}
           sm={4}
-          md={7}  
+          md={7}
           sx={{
             backgroundImage:
               "url(https://source.unsplash.com/random?wallpapers)",
             backgroundRepeat: "no-repeat",
           }}
         />
+
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Snackbar
+            anchorOrigin={{ vertical, horizontal }}
+            open={success}
+            autoHideDuration={6000}
+            onClose={() => setSuccess(false)}
+          >
+            <Alert
+              onClose={() => setSuccess(false)}
+              severity="success"
+              sx={{ width: "100%" }}
+            >
+              Loged successfully
+            </Alert>
+          </Snackbar>
+          <Snackbar
+            anchorOrigin={{ vertical, horizontal }}
+            open={errorm}
+            autoHideDuration={6000}
+            onClose={() => setErrorm(false)}
+          >
+            <Alert
+              onClose={() => setErrorm(false)}
+              severity="error"
+              sx={{ width: "100%" }}
+            >
+              {message}
+            </Alert>
+          </Snackbar>
           <Box
             sx={{
               my: 8,
@@ -84,10 +113,10 @@ export default function Login() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="userName"
+                label="Username"
+                name="userName"
+                autoComplete="userName"
                 color="warning"
                 autoFocus
               />
@@ -117,13 +146,7 @@ export default function Login() {
               >
                 Sign In
               </Button>
-              {errorMessage && (
-                <div
-                  style={{ color: "red", textAlign: "center", fontSize: 20 }}
-                >
-                  {errorMessage}
-                </div>
-              )}
+
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>

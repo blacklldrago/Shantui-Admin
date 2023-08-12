@@ -33,11 +33,11 @@ const router = createBrowserRouter([
   {
     path: "/panel",
     element: (
-      // <ProtectedRoute>
+      <ProtectedRoute>
         <Suspense fallback={<Circle/>}>
           <Layout />
         </Suspense>
-      // </ProtectedRoute>
+      </ProtectedRoute>
     ),
     errorElement: (props) => {
       console.log(props);
