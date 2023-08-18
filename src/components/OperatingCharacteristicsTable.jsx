@@ -27,8 +27,8 @@ export default function OperatingCharacteristicsTable({ data, deleteOperatingCha
             <TableCell align="center">Blade width</TableCell>
             <TableCell align="center">Blade height</TableCell>
             <TableCell align="center">Max blade lift</TableCell>
-            <TableCell align="center">Blade Volume</TableCell>
-            <TableCell align="center">Ground Pressure</TableCell>
+            <TableCell align="center">Cylinder Diameter</TableCell>
+            <TableCell align="center">Piston Stroke</TableCell>
             <TableCell align="center">Action</TableCell>
           </TableRow>
         </TableHead>
