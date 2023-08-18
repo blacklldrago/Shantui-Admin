@@ -35,19 +35,25 @@ export default function Login() {
       password: event.target["password"].value,
     };
 
-    console.log(user);
     try {
       const { data } = await axiosLogin.post("/Account/Login", user);
 
-      setSuccess(true);
-      saveToken(data.data, event.target["remember"].checked);
-      navigate("/panel");
+      if (data.data == " UserName or Password  is incorrect") {
+        setMessage(data.data);
+        setErrorm(true);
+      } else {
+        setSuccess(true);
+        saveToken(data.data, event.target["remember"].checked);
+        navigate("/panel")
+      }
     } catch (e) {
       setErrorm(true);
-      setMessage(data.data);
     }
   };
+  console.log(message);
 
+  // Shahrom21212
+  //  123Password
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>

@@ -1,10 +1,10 @@
 import React from 'react'
 import Title from '../../components/Title'
 
-const Categories = () => {
+const Order = () => {
   return (
-    <Title>Categories</Title>
+    <Title>Order</Title>
   )
 }
 
-export default Categories
+export default Order

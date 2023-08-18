@@ -29,7 +29,7 @@ export default function Layout() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex", overflow:"hidden", height:"100vh" }}>
         <CssBaseline />
         <AppBar
           sx={{
@@ -55,7 +55,7 @@ export default function Layout() {
           </Toolbar>
         </AppBar>
         <div className="fra">
-          <Drawer variant="permanent" open={true}>
+          <Drawer variant="permanent" open={true} >
             <Box
               sx={{
                 textAlign: "center",
@@ -81,7 +81,7 @@ export default function Layout() {
               </Typography>
             </Box>
             <Divider />
-            <List component="nav">
+            <List component="nav" sx={{overflowX:"hidden"}}>
               <MainListItems />
             </List>
           </Drawer>

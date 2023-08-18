@@ -1,10 +1,10 @@
 import React from 'react'
 import Title from '../../components/Title'
 
-const Brands = () => {
+const AboutProduct = () => {
   return (
-    <Title>Brands</Title>
+    <Title>AboutProduct</Title>
   )
 }
 
-export default Brands
+export default AboutProduct

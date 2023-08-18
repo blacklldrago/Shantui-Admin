@@ -4,13 +4,22 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./index.css";
 import Layout from "./layout/Layout.jsx";
 import {
-  Brands,
-  Categories,
+  AboutProduct,
+  AdditionalInformation,
+  Capacities,
+  Chassis,
+  Customer,
   Dashboard,
   Login,
   Products,
   SubCategories,
   Users,
+  Dimensions,
+  Engine,
+  OperatingCharacteristics,
+  Order,
+  SpecializedEquipment,
+  TechniqueCategory
 } from "./router/router.jsx";
 import AuthCheck from "./utils/AuthCheck";
 import ProtectedRoute from "./utils/ProtectedRoute";
@@ -37,7 +46,7 @@ const router = createBrowserRouter([
         <Suspense fallback={<Circle/>}>
           <Layout />
         </Suspense>
-      </ProtectedRoute>
+       </ProtectedRoute>
     ),
     errorElement: (props) => {
       console.log(props);
@@ -81,10 +90,10 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "categories",
+        path: "additionalInformation",
         element: (
           <Suspense fallback={<Circle/>}>
-            <Categories />
+            <AdditionalInformation />
           </Suspense>
         ),
         errorElement: (props) => {
@@ -105,10 +114,118 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "brands",
+        path: "aboutProduct",
         element: (
           <Suspense fallback={<Circle/>}>
-            <Brands />
+            <AboutProduct />
+          </Suspense>
+        ),
+        errorElement: (props) => {
+          console.log(props);
+          return <div>error</div>;
+        },
+      },
+      {
+        path: "capacities",
+        element: (
+          <Suspense fallback={<Circle/>}>
+            <Capacities />
+          </Suspense>
+        ),
+        errorElement: (props) => {
+          console.log(props);
+          return <div>error</div>;
+        },
+      },
+      {
+        path: "chassis",
+        element: (
+          <Suspense fallback={<Circle/>}>
+            <Chassis />
+          </Suspense>
+        ),
+        errorElement: (props) => {
+          console.log(props);
+          return <div>error</div>;
+        },
+      },
+      {
+        path: "customer",
+        element: (
+          <Suspense fallback={<Circle/>}>
+            <Customer />
+          </Suspense>
+        ),
+        errorElement: (props) => {
+          console.log(props);
+          return <div>error</div>;
+        },
+      },
+      {
+        path: "dimensions",
+        element: (
+          <Suspense fallback={<Circle/>}>
+            <Dimensions />
+          </Suspense>
+        ),
+        errorElement: (props) => {
+          console.log(props);
+          return <div>error</div>;
+        },
+      },
+      {
+        path: "engine",
+        element: (
+          <Suspense fallback={<Circle/>}>
+            <Engine />
+          </Suspense>
+        ),
+        errorElement: (props) => {
+          console.log(props);
+          return <div>error</div>;
+        },
+      },
+      {
+        path: "operatingCharacteristics",
+        element: (
+          <Suspense fallback={<Circle/>}>
+            <OperatingCharacteristics />
+          </Suspense>
+        ),
+        errorElement: (props) => {
+          console.log(props);
+          return <div>error</div>;
+        },
+      },
+      {
+        path: "order",
+        element: (
+          <Suspense fallback={<Circle/>}>
+            <Order />
+          </Suspense>
+        ),
+        errorElement: (props) => {
+          console.log(props);
+          return <div>error</div>;
+        },
+      },
+      {
+        path: "specializedEquipment",
+        element: (
+          <Suspense fallback={<Circle/>}>
+            <SpecializedEquipment />
+          </Suspense>
+        ),
+        errorElement: (props) => {
+          console.log(props);
+          return <div>error</div>;
+        },
+      },
+      {
+        path: "techniqueCategory",
+        element: (
+          <Suspense fallback={<Circle/>}>
+            <TechniqueCategory />
           </Suspense>
         ),
         errorElement: (props) => {
