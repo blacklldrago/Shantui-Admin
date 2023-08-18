@@ -20,7 +20,6 @@ import logo from "../assets/logo.png";
 import "./Layout.css";
 import { drawerWidth } from "../components/Drawer";
 import SwipeableD from "../components/DrawerFor";
-
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
@@ -54,8 +53,8 @@ export default function Layout() {
             <AccountMenu />
           </Toolbar>
         </AppBar>
-        <div className="fra">
-          <Drawer variant="permanent" open={true} >
+        <div className="fra" >
+          <Drawer variant="permanent"   open={true} >
             <Box
               sx={{
                 textAlign: "center",

@@ -127,7 +127,7 @@ const OperatingCharacteristics = () => {
       <MuiModal
         open={addModal}
         handleClose={() => setAddModal(false)}
-        title="Add Dimensions"
+        title="Add Operating Characteristics"
       >
         <form onSubmit={addOperatingCharacteristics}>
           <TextField
@@ -253,7 +253,7 @@ const OperatingCharacteristics = () => {
       <MuiModal
         open={editModal}
         handleClose={() => setEditModal(false)}
-        title="Edit Engine"
+        title="Edit Operating Characteristics"
       >
         <form onSubmit={editOperatingCharacteristics}>
           <TextField

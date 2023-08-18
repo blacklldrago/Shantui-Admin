@@ -30,7 +30,7 @@ export default function TechniqueCategoryTable({ data, deleteTechniqueCategory, 
               key={row.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell align="center">{row.ImageName}</TableCell>
+              <TableCell align="center">{row.imageName}</TableCell>
               <TableCell align="center">{row.name}</TableCell>
               <TableCell align="center">
                 <IconButton color="error" onClick={()=>deleteTechniqueCategory(row.id)}>

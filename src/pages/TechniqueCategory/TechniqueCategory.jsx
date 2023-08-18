@@ -10,6 +10,8 @@ import TechniqueCategoryTable from "../../components/TechniqueCategoryTable";
 const TechniqueCategory = () => {
   const [techniqueCategory, setTechniqueCategory] = useState([]);
   const [addModal, setAddModal] = useState(false);
+  const [image, setImage] = useState("");
+
   const [editModal, setEditModal] = useState(false);
   const [idx, setIdx] = useState(null);
   const [operatingWeight, setOperatingWeight] = useState("");
@@ -46,30 +48,24 @@ const TechniqueCategory = () => {
     } catch (error) {}
   };
 
-  // const addOperatingCharacteristics = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     let newOperatingCharacteristics = {
-  //       operatingWeight: event.target["operatingWeight"].value,
-  //       bladeType: event.target["bladeType"].value,
-  //       ripperType: event.target["ripperType"].value,
-  //       depthOfCut: event.target["depthOfCut"].value,
-  //       looseningDepth: event.target["looseningDepth"].value,
-  //       bladeWidth: event.target["bladeWidth"].value,
-  //       bladeHeight: event.target["bladeHeight"].value,
-  //       maxBladeLift: event.target["maxBladeLift"].value,
-  //       bladeVolume: event.target["bladeVolume"].value,
-  //       groundPressure: event.target["groundPressure"].value,
-  //     };
-  //     const { data } = await axiosRequest.post(
-  //       "OperatingCharacteristics/AddOperatingCharacteristics",
-  //       newOperatingCharacteristics
-  //     );
+  const addTechniqueCategory = async (event) => {
+    event.preventDefault();
 
-  //     getOperatingCharacteristics();
-  //     setAddModal(false);
-  //   } catch (error) {}
-  // };
+    let newTechniqueCategory = new FormData();
+    newTechniqueCategory.append("ImageName", image);
+    newTechniqueCategory.append("Name", event.target["name"].value);
+
+    try {
+      const { data } = await axiosRequest.post(
+        "TechniqueCategory/AddTechniqueCategory",
+        newTechniqueCategory
+      );
+
+      getTechniqueCategory();
+      setAddModal(false);
+    } catch (error) {}
+  };
+
   const deleteTechniqueCategory = async (id) => {
     try {
       const { data } = await axiosRequest.delete(
@@ -127,116 +123,23 @@ const TechniqueCategory = () => {
       <MuiModal
         open={addModal}
         handleClose={() => setAddModal(false)}
-        title="Add Dimensions"
+        title="Add Technique Category"
       >
-        <form >
+        <form onSubmit={addTechniqueCategory}>
           <TextField
             fullWidth
-            id="operatingWeight"
-            name="operatingWeight"
-            label="Operating Weight"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="bladeType"
-            name="bladeType"
-            label="Blade Type"
+            id="name"
+            name="name"
+            label="Name"
             color="warning"
             sx={{
               mb: "10px",
             }}
           />
-          <TextField
-            fullWidth
-            id="ripperType"
-            name="ripperType"
-            label="Ripper Type"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-          />
-          <TextField
-            fullWidth
-            id="depthOfCut"
-            name="depthOfCut"
-            label="Depth of cut"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="looseningDepth"
-            name="looseningDepth"
-            label="Loosening Depth"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="bladeWidth"
-            name="bladeWidth"
-            label="Blade Width"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="bladeHeight"
-            name="bladeHeight"
-            label="Blade Height"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="maxBladeLift"
-            name="maxBladeLift"
-            label="Max Blade Lift"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="bladeVolume"
-            name="bladeVolume"
-            label="Blade Volume"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="groundPressure"
-            name="groundPressure"
-            label="Ground Pressure"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
+          <input
+            type="file"
+            name="image"
+            onChange={(e) => setImage(e.target.files[0])}
           />
           <Button
             color="warning"
@@ -253,7 +156,7 @@ const TechniqueCategory = () => {
       {/* <MuiModal
         open={editModal}
         handleClose={() => setEditModal(false)}
-        title="Edit Engine"
+        title="Edit Technique Category"
       >
         <form onSubmit={editOperatingCharacteristics}>
           <TextField

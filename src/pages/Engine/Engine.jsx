@@ -125,7 +125,7 @@ const Engine = () => {
       <MuiModal
         open={addModal}
         handleClose={() => setAddModal(false)}
-        title="Add Dimensions"
+        title="Add Engine"
       >
         <form onSubmit={addEngine}>
           <TextField
