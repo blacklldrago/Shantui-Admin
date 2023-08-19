@@ -4,40 +4,24 @@ import { axiosRequest } from "../../utils/axiosRequest";
 import { Button, Grid, IconButton, TextField } from "@mui/material";
 import AddCircle from "@mui/icons-material/AddCircle";
 import MuiModal from "../../components/Modal";
+import TechniquecategoryCard from "../../components/TechniquecategoryCard";
 
-import TechniqueCategoryTable from "../../components/TechniqueCategoryTable";
-
+import Delete from "@mui/icons-material/Delete";
+import Edit from "@mui/icons-material/Edit";
 const TechniqueCategory = () => {
   const [techniqueCategory, setTechniqueCategory] = useState([]);
   const [addModal, setAddModal] = useState(false);
   const [image, setImage] = useState("");
-
   const [editModal, setEditModal] = useState(false);
   const [idx, setIdx] = useState(null);
-  const [operatingWeight, setOperatingWeight] = useState("");
-  const [bladeType, setBladeType] = useState("");
-  const [ripperType, setRipperType] = useState("");
-  const [depthOfCut, setDepthOfCut] = useState("");
-  const [looseningDepth, setLooseningDepth] = useState("");
-  const [bladeWidth, setBladeWidth] = useState("");
-  const [bladeHeight, setBladeHeight] = useState("");
-  const [maxBladeLift, setMaxBladeLift] = useState("");
-  const [bladeVolume, setBladeVolume] = useState("");
-  const [groundPressure, setGroundPressure] = useState("");
-  // const handleModal = (obj) => {
-  //   setEditModal(true);
-  //   setIdx(obj.id);
-  //   setOperatingWeight(obj.operatingWeight);
-  //   setBladeType(obj.bladeType);
-  //   setRipperType(obj.ripperType);
-  //   setDepthOfCut(obj.depthOfCut);
-  //   setLooseningDepth(obj.looseningDepth);
-  //   setBladeWidth(obj.bladeWidth);
-  //   setBladeHeight(obj.bladeHeight);
-  //   setMaxBladeLift(obj.maxBladeLift);
-  //   setBladeVolume(obj.bladeVolume);
-  //   setGroundPressure(obj.groundPressure);
-  // };
+  const [imageName, setImageName] = useState("");
+  const [name, setName] = useState("");
+  const handleModal = (obj) => {
+    setEditModal(true);
+    setIdx(obj.id);
+    setImageName(obj.imageName);
+    setName(obj.name);
+  };
 
   const getTechniqueCategory = async () => {
     try {
@@ -76,30 +60,23 @@ const TechniqueCategory = () => {
     } catch (error) {}
   };
 
-  // const editOperatingCharacteristics = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     let updatedOperatingCharacteristics = {
-  //       id: idx,
-  //       operatingWeight: event.target["operatingWeight"].value,
-  //       bladeType: event.target["bladeType"].value,
-  //       ripperType: event.target["ripperType"].value,
-  //       depthOfCut: event.target["depthOfCut"].value,
-  //       looseningDepth: event.target["looseningDepth"].value,
-  //       bladeWidth: event.target["bladeWidth"].value,
-  //       bladeHeight: event.target["bladeHeight"].value,
-  //       maxBladeLift: event.target["maxBladeLift"].value,
-  //       bladeVolume: event.target["bladeVolume"].value,
-  //       groundPressure: event.target["groundPressure"].value,
-  //     };
-  //     const { data } = await axiosRequest.put(
-  //       "OperatingCharacteristics/UpdateOperatingCharacteristics",
-  //       updatedOperatingCharacteristics
-  //     );
-  //     getOperatingCharacteristics();
-  //     setEditModal(false);
-  //   } catch (error) {}
-  // };
+  const editTechniqueCategory = async (event) => {
+    event.preventDefault();
+
+    let updatedTechniqueCategory = new FormData();
+    updatedTechniqueCategory.append("ImageName", imageName);
+    updatedTechniqueCategory.append("Id", idx);
+    updatedTechniqueCategory.append("Name", name);
+
+    try {
+      const { data } = await axiosRequest.put(
+        "TechniqueCategory/UpdateTechniqueCategory",
+        updatedTechniqueCategory
+      );
+      getTechniqueCategory();
+      setEditModal(false);
+    } catch (error) {}
+  };
 
   useEffect(() => {
     getTechniqueCategory();
@@ -113,11 +90,32 @@ const TechniqueCategory = () => {
             <AddCircle fontSize="large" />
           </IconButton>
         </Grid>
-        <TechniqueCategoryTable
-          data={techniqueCategory}
-          deleteTechniqueCategory={deleteTechniqueCategory}
-          // handleModal={handleModal}
-        />
+
+        {techniqueCategory.length > 0 &&
+          techniqueCategory.map((e) => {
+            return (
+              <Grid key={e.id} item xs={12} sm={6} md={4} lg={3}>
+                <TechniquecategoryCard name={e.name} img={e.imageName}>
+                  <IconButton
+                    color="warning"
+                    onClick={() => {
+                      handleModal(e);
+                    }}
+                  >
+                    <Edit />
+                  </IconButton>
+                  <IconButton
+                    color="error"
+                    onClick={() => {
+                      deleteTechniqueCategory(e.id);
+                    }}
+                  >
+                    <Delete />
+                  </IconButton>
+                </TechniquecategoryCard>
+              </Grid>
+            );
+          })}
       </Grid>
 
       <MuiModal
@@ -153,139 +151,27 @@ const TechniqueCategory = () => {
         </form>
       </MuiModal>
 
-      {/* <MuiModal
+      <MuiModal
         open={editModal}
         handleClose={() => setEditModal(false)}
         title="Edit Technique Category"
       >
-        <form onSubmit={editOperatingCharacteristics}>
+        <form onSubmit={editTechniqueCategory}>
           <TextField
             fullWidth
-            id="operatingWeight"
-            name="operatingWeight"
-            label="Operating Weight"
+            id="name"
+            name="name"
+            label="Name"
             color="warning"
             sx={{
               mb: "10px",
             }}
-            value={operatingWeight}
-            onChange={(e) => setOperatingWeight(e.target.value)}
-            type="number"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
-          <TextField
-            fullWidth
-            id="bladeType"
-            name="bladeType"
-            label="Blade Type"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            value={bladeType}
-            onChange={(e) => setBladeType(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            id="ripperType"
-            name="ripperType"
-            label="Ripper Type"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            value={ripperType}
-            onChange={(e) => setRipperType(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            id="depthOfCut"
-            name="depthOfCut"
-            label="Depth of cut"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-            value={depthOfCut}
-            onChange={(e) => setDepthOfCut(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            id="looseningDepth"
-            name="looseningDepth"
-            label="Loosening Depth"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-            value={looseningDepth}
-            onChange={(e) => setLooseningDepth(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            id="bladeWidth"
-            name="bladeWidth"
-            label="Blade Width"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-            value={bladeWidth}
-            onChange={(e) => setBladeWidth(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            id="bladeHeight"
-            name="bladeHeight"
-            label="Blade Height"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-            value={bladeHeight}
-            onChange={(e) => setBladeHeight(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            id="maxBladeLift"
-            name="maxBladeLift"
-            label="Max Blade Lift"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-            value={maxBladeLift}
-            onChange={(e) => setMaxBladeLift(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            id="bladeVolume"
-            name="bladeVolume"
-            label="Blade Volume"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-            value={bladeVolume}
-            onChange={(e) => setBladeVolume(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            id="groundPressure"
-            name="groundPressure"
-            label="Ground Pressure"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-            value={groundPressure}
-            onChange={(e) => setGroundPressure(e.target.value)}
+          <input
+            type="file"
+            onChange={(e) => setImageName(e.target.files[0])}
           />
           <Button
             color="warning"
@@ -297,7 +183,7 @@ const TechniqueCategory = () => {
             Submit
           </Button>
         </form>
-      </MuiModal> */}
+      </MuiModal>
     </>
   );
 };

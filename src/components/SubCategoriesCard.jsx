@@ -4,25 +4,31 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions, Tooltip } from "@mui/material";
 
-export default function MuiCard(props) {
+export default function SubCategoriesCard({
+  name,
+  img,
+  children
+}) {
   return (
-    <Card sx={{ height: 300 }}>
+    <Card sx={{ height: 300, mt:10 }}>
       <CardActionArea>
         <CardMedia
           component="img"
           height="170"
-          image={"http://localhost:3000/" + props.img}
-          alt={props.name}
+          image={img}
+          alt={name}
         />
         <CardContent>
-          <Tooltip title={props.name} arrow>
+          <Tooltip title={name} arrow>
             <Typography gutterBottom variant="h5" noWrap component="div">
-              {props.name}
+              {name}
             </Typography>
           </Tooltip>
         </CardContent>
       </CardActionArea>
-      <CardActions>{props.children}</CardActions>
+      <CardActions>
+        {children}
+      </CardActions>
     </Card>
   );
 }
