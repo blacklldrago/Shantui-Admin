@@ -19,7 +19,8 @@ import {
   OperatingCharacteristics,
   Order,
   SpecializedEquipment,
-  TechniqueCategory
+  TechniqueCategory,
+  Roles
 } from "./router/router.jsx";
 import AuthCheck from "./utils/AuthCheck";
 import ProtectedRoute from "./utils/ProtectedRoute";
@@ -226,6 +227,18 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Circle/>}>
             <TechniqueCategory />
+          </Suspense>
+        ),
+        errorElement: (props) => {
+          console.log(props);
+          return <div>error</div>;
+        },
+      },
+      {
+        path: "roles",
+        element: (
+          <Suspense fallback={<Circle/>}>
+            <Roles />
           </Suspense>
         ),
         errorElement: (props) => {

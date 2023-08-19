@@ -13,6 +13,7 @@ export const OperatingCharacteristics = lazy(() => import("../pages/OperatingCha
 export const Order = lazy(() => import("../pages/Order/Order.jsx"));
 export const SpecializedEquipment = lazy(() => import("../pages/SpecializedEquipment/SpecializedEquipment.jsx"));
 export const TechniqueCategory = lazy(() => import("../pages/TechniqueCategory/TechniqueCategory.jsx"));
+export const Roles = lazy(() => import("../pages/Roles/Roles.jsx"));
 export const SubCategories = lazy(() =>
   import("../pages/SubCategories/SubCategories")
 );

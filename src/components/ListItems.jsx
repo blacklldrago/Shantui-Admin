@@ -338,27 +338,27 @@ export const MainListItems = () => {
         </ListItemButton>
       )}
 
-      {pathname == "/panel/brands" ? (
+      {pathname == "/panel/roles" ? (
         <ListItemButton
           onClick={() => {
-            navigate("/panel/brands");
+            navigate("/panel/roles");
           }}
         >
           <ListItemIcon>
             <BrandingWatermarkIcon color="warning" />
           </ListItemIcon>
-          <ListItemText primary="Brands" sx={{ color: "#ED6C02" }} />
+          <ListItemText primary="Roles" sx={{ color: "#ED6C02" }} />
         </ListItemButton>
       ) : (
         <ListItemButton
           onClick={() => {
-            navigate("/panel/brands");
+            navigate("/panel/roles");
           }}
         >
           <ListItemIcon>
             <BrandingWatermarkIcon />
           </ListItemIcon>
-          <ListItemText primary="Brands" />
+          <ListItemText primary="Roles" />
         </ListItemButton>
       )}
 

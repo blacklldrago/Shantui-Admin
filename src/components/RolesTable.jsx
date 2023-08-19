@@ -6,15 +6,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { IconButton, Typography } from "@mui/material";
+import { Button, IconButton, MenuItem, Select, Typography } from "@mui/material";
 
+import AddCircle from "@mui/icons-material/AddCircle";
 import Delete from "@mui/icons-material/Delete";
 import Edit from "@mui/icons-material/Edit";
-export default function UserTable({
-  data,
-  deleteUsers,
-  handleModal,
-}) {
+import MuiModal from "./Modal";
+export default function RolesTable({ data }) {
+  const [addModal, setAddModal] = React.useState(false);
   return (
     <TableContainer
       component={Paper}
@@ -27,8 +26,6 @@ export default function UserTable({
             <TableCell align="center">Username</TableCell>
             <TableCell align="center">First Name</TableCell>
             <TableCell align="center">Last Name</TableCell>
-            <TableCell align="center">Phone number</TableCell>
-            <TableCell align="center">Email</TableCell>
             <TableCell align="center">Roles</TableCell>
             <TableCell align="center">Action</TableCell>
           </TableRow>
@@ -45,8 +42,6 @@ export default function UserTable({
               <TableCell align="center">{row.userName}</TableCell>
               <TableCell align="center">{row.firstName}</TableCell>
               <TableCell align="center">{row.lastName}</TableCell>
-              <TableCell align="center">{row.phoneNumber}</TableCell>
-              <TableCell align="center">{row.email}</TableCell>
               <TableCell align="center">
                 {row.roles.map((e) => {
                   return (
@@ -57,20 +52,42 @@ export default function UserTable({
                 })}
               </TableCell>
               <TableCell align="center">
-                <IconButton
-                  color="error"
-                  onClick={() => deleteUsers(row.id)}
-                >
-                  <Delete />
+                <IconButton color="warning" onClick={() => setAddModal(true)}>
+                  <AddCircle fontSize="medium" />
                 </IconButton>
-                <IconButton color="warning" onClick={() => handleModal(row)}>
-                  <Edit />
+                <IconButton color="error" onClick={() => setAddModal(true)}>
+                  <Delete fontSize="medium" />
                 </IconButton>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+
+      <MuiModal
+        open={addModal}
+        handleClose={() => setAddModal(false)}
+        title="Add Role"
+      >
+        <form>
+          <Select val>{data.map((e) => {
+            return e.roles.map((role) =>{
+                return <MenuItem defaultValue={role.id}>
+                    {role.name}
+                </MenuItem>
+            })
+          })}</Select>
+          <Button
+            color="warning"
+            variant="contained"
+            sx={{ mt: 3 }}
+            fullWidth
+            type="submit"
+          >
+            Submit
+          </Button>
+        </form>
+      </MuiModal>
     </TableContainer>
   );
 }
