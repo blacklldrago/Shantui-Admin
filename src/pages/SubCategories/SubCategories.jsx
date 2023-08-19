@@ -244,7 +244,7 @@ const SubCategories = () => {
           <input
             type="file"
             name="image"
-            onChange={(e) => setImage(e.target.files[0])}
+            onChange={(e) => setImageName(e.target.files[0])}
           />
           <Button
             color="warning"
