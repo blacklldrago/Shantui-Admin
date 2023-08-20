@@ -66,18 +66,18 @@ const router = createBrowserRouter([
           return <div>error</div>;
         },
       },
-      {
-        path: "users",
-        element: (
-          <Suspense fallback={<Circle/>}>
-            <Users />
-          </Suspense>
-        ),
-        errorElement: (props) => {
-          console.log(props);
-          return <div>error</div>;
-        },
-      },
+      // {
+      //   path: "users",
+      //   element: (
+      //     <Suspense fallback={<Circle/>}>
+      //       <Users />
+      //     </Suspense>
+      //   ),
+      //   errorElement: (props) => {
+      //     console.log(props);
+      //     return <div>error</div>;
+      //   },
+      // },
       {
         path: "products",
         element: (
@@ -234,18 +234,18 @@ const router = createBrowserRouter([
           return <div>error</div>;
         },
       },
-      {
-        path: "roles",
-        element: (
-          <Suspense fallback={<Circle/>}>
-            <Roles />
-          </Suspense>
-        ),
-        errorElement: (props) => {
-          console.log(props);
-          return <div>error</div>;
-        },
-      },
+      // {
+      //   path: "roles",
+      //   element: (
+      //     <Suspense fallback={<Circle/>}>
+      //       <Roles />
+      //     </Suspense>
+      //   ),
+      //   errorElement: (props) => {
+      //     console.log(props);
+      //     return <div>error</div>;
+      //   },
+      // },
     ],
   },
 ]);

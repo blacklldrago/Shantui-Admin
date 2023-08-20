@@ -17,13 +17,15 @@ import Copyright from "../components/Copyright";
 import Drawer from "../components/Drawer";
 import { MainListItems } from "../components/ListItems";
 import logo from "../assets/logo.png";
-import "./Layout.css";
 import { drawerWidth } from "../components/Drawer";
 import SwipeableD from "../components/DrawerFor";
+import "./Layout.css";
+
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function Layout() {
+
   const navigate = useNavigate();
 
   return (
@@ -56,7 +58,9 @@ export default function Layout() {
         <div className="fra" >
           <Drawer variant="permanent"   open={true} >
             <Box
+            
               sx={{
+                
                 textAlign: "center",
                 display: "flex",
                 gap: "2px",

@@ -35,3 +35,6 @@
     bottom: 7px;
   }
   
+  .css-cvumne-MuiDrawer-docked .MuiDrawer-paper {
+    width: 250px !important;
+  }

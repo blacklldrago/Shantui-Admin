@@ -1,13 +1,22 @@
+import * as React from "react";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import * as React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import PersonIcon from "@mui/icons-material/Person";
 import CategoryIcon from "@mui/icons-material/Category";
-import BrandingWatermarkIcon from "@mui/icons-material/BrandingWatermark";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
+import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
+import SettingsIcon from "@mui/icons-material/Settings";
+import ConstructionIcon from "@mui/icons-material/Construction";
+import SummarizeIcon from "@mui/icons-material/Summarize";
+import AgricultureIcon from "@mui/icons-material/Agriculture";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+import ViewInArIcon from "@mui/icons-material/ViewInAr";
+import HdrWeakIcon from "@mui/icons-material/HdrWeak";
+import SquareFootIcon from "@mui/icons-material/SquareFoot";
+import FactCheckIcon from "@mui/icons-material/FactCheck";
+
 import "../App.css";
 export const MainListItems = () => {
   const navigate = useNavigate();
@@ -48,7 +57,7 @@ export const MainListItems = () => {
           }}
         >
           <ListItemIcon>
-            <LocalGroceryStoreIcon color="warning" />
+            <ProductionQuantityLimitsIcon color="warning" />
           </ListItemIcon>
           <ListItemText primary="About Product" sx={{ color: "#ED6C02" }} />
         </ListItemButton>
@@ -59,33 +68,9 @@ export const MainListItems = () => {
           }}
         >
           <ListItemIcon>
-            <LocalGroceryStoreIcon />
+            <ProductionQuantityLimitsIcon />
           </ListItemIcon>
           <ListItemText primary="About Product" />
-        </ListItemButton>
-      )}
-
-      {pathname == "/panel/subcategories" ? (
-        <ListItemButton
-          onClick={() => {
-            navigate("/panel/subcategories");
-          }}
-        >
-          <ListItemIcon>
-            <BarChartIcon color="warning" />
-          </ListItemIcon>
-          <ListItemText primary="Sub Categories" sx={{ color: "#ED6C02" }} />
-        </ListItemButton>
-      ) : (
-        <ListItemButton
-          onClick={() => {
-            navigate("/panel/subcategories");
-          }}
-        >
-          <ListItemIcon>
-            <BarChartIcon />
-          </ListItemIcon>
-          <ListItemText primary="Sub Categories" />
         </ListItemButton>
       )}
 
@@ -96,12 +81,9 @@ export const MainListItems = () => {
           }}
         >
           <ListItemIcon>
-            <CategoryIcon color="warning" />
+            <FactCheckIcon color="warning" />
           </ListItemIcon>
-          <ListItemText
-            primary="Additional Information"
-            sx={{ color: "#ED6C02" }}
-          />
+          <ListItemText primary="More Info" sx={{ color: "#ED6C02" }} />
         </ListItemButton>
       ) : (
         <ListItemButton
@@ -110,9 +92,9 @@ export const MainListItems = () => {
           }}
         >
           <ListItemIcon>
-            <CategoryIcon />
+            <FactCheckIcon />
           </ListItemIcon>
-          <ListItemText primary="Additional Information" />
+          <ListItemText primary="More Info" />
         </ListItemButton>
       )}
 
@@ -123,7 +105,7 @@ export const MainListItems = () => {
           }}
         >
           <ListItemIcon>
-            <CategoryIcon color="warning" />
+            <ViewInArIcon color="warning" />
           </ListItemIcon>
           <ListItemText primary="Capacities" sx={{ color: "#ED6C02" }} />
         </ListItemButton>
@@ -134,7 +116,7 @@ export const MainListItems = () => {
           }}
         >
           <ListItemIcon>
-            <CategoryIcon />
+            <ViewInArIcon />
           </ListItemIcon>
           <ListItemText primary="Capacities" />
         </ListItemButton>
@@ -147,7 +129,7 @@ export const MainListItems = () => {
           }}
         >
           <ListItemIcon>
-            <CategoryIcon color="warning" />
+            <HdrWeakIcon color="warning" />
           </ListItemIcon>
           <ListItemText primary="Chassis" sx={{ color: "#ED6C02" }} />
         </ListItemButton>
@@ -158,33 +140,9 @@ export const MainListItems = () => {
           }}
         >
           <ListItemIcon>
-            <CategoryIcon />
+            <HdrWeakIcon />
           </ListItemIcon>
           <ListItemText primary="Chassis" />
-        </ListItemButton>
-      )}
-
-      {pathname == "/panel/customer" ? (
-        <ListItemButton
-          onClick={() => {
-            navigate("/panel/customer");
-          }}
-        >
-          <ListItemIcon>
-            <CategoryIcon color="warning" />
-          </ListItemIcon>
-          <ListItemText primary="Customer" sx={{ color: "#ED6C02" }} />
-        </ListItemButton>
-      ) : (
-        <ListItemButton
-          onClick={() => {
-            navigate("/panel/customer");
-          }}
-        >
-          <ListItemIcon>
-            <CategoryIcon />
-          </ListItemIcon>
-          <ListItemText primary="Customer" />
         </ListItemButton>
       )}
 
@@ -195,7 +153,7 @@ export const MainListItems = () => {
           }}
         >
           <ListItemIcon>
-            <CategoryIcon color="warning" />
+            <SquareFootIcon color="warning" />
           </ListItemIcon>
           <ListItemText primary="Dimensions" sx={{ color: "#ED6C02" }} />
         </ListItemButton>
@@ -206,7 +164,7 @@ export const MainListItems = () => {
           }}
         >
           <ListItemIcon>
-            <CategoryIcon />
+            <SquareFootIcon />
           </ListItemIcon>
           <ListItemText primary="Dimensions" />
         </ListItemButton>
@@ -236,6 +194,78 @@ export const MainListItems = () => {
         </ListItemButton>
       )}
 
+      {pathname == "/panel/customer" ? (
+        <ListItemButton
+          onClick={() => {
+            navigate("/panel/customer");
+          }}
+        >
+          <ListItemIcon>
+            <SupportAgentIcon color="warning" />
+          </ListItemIcon>
+          <ListItemText primary="Customer" sx={{ color: "#ED6C02" }} />
+        </ListItemButton>
+      ) : (
+        <ListItemButton
+          onClick={() => {
+            navigate("/panel/customer");
+          }}
+        >
+          <ListItemIcon>
+            <SupportAgentIcon />
+          </ListItemIcon>
+          <ListItemText primary="Customer" />
+        </ListItemButton>
+      )}
+
+      {pathname == "/panel/order" ? (
+        <ListItemButton
+          onClick={() => {
+            navigate("/panel/order");
+          }}
+        >
+          <ListItemIcon>
+            <SummarizeIcon color="warning" />
+          </ListItemIcon>
+          <ListItemText primary="Order" sx={{ color: "#ED6C02" }} />
+        </ListItemButton>
+      ) : (
+        <ListItemButton
+          onClick={() => {
+            navigate("/panel/order");
+          }}
+        >
+          <ListItemIcon>
+            <SummarizeIcon />
+          </ListItemIcon>
+          <ListItemText primary="Order" />
+        </ListItemButton>
+      )}
+
+      {pathname == "/panel/subcategories" ? (
+        <ListItemButton
+          onClick={() => {
+            navigate("/panel/subcategories");
+          }}
+        >
+          <ListItemIcon>
+            <BarChartIcon color="warning" />
+          </ListItemIcon>
+          <ListItemText primary="Sub Categories" sx={{ color: "#ED6C02" }} />
+        </ListItemButton>
+      ) : (
+        <ListItemButton
+          onClick={() => {
+            navigate("/panel/subcategories");
+          }}
+        >
+          <ListItemIcon>
+            <BarChartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Sub Categories" />
+        </ListItemButton>
+      )}
+
       {pathname == "/panel/operatingCharacteristics" ? (
         <ListItemButton
           onClick={() => {
@@ -243,12 +273,9 @@ export const MainListItems = () => {
           }}
         >
           <ListItemIcon>
-            <CategoryIcon color="warning" />
+            <AgricultureIcon color="warning" />
           </ListItemIcon>
-          <ListItemText
-            primary="OperatingCharacteristics"
-            sx={{ color: "#ED6C02" }}
-          />
+          <ListItemText primary="Characteristics" sx={{ color: "#ED6C02" }} />
         </ListItemButton>
       ) : (
         <ListItemButton
@@ -257,9 +284,9 @@ export const MainListItems = () => {
           }}
         >
           <ListItemIcon>
-            <CategoryIcon />
+            <AgricultureIcon />
           </ListItemIcon>
-          <ListItemText primary="OperatingCharacteristics" />
+          <ListItemText primary="Characteristics" />
         </ListItemButton>
       )}
 
@@ -270,12 +297,9 @@ export const MainListItems = () => {
           }}
         >
           <ListItemIcon>
-            <CategoryIcon color="warning" />
+            <ConstructionIcon color="warning" />
           </ListItemIcon>
-          <ListItemText
-            primary="SpecializedEquipment"
-            sx={{ color: "#ED6C02" }}
-          />
+          <ListItemText primary="Equipment" sx={{ color: "#ED6C02" }} />
         </ListItemButton>
       ) : (
         <ListItemButton
@@ -284,9 +308,9 @@ export const MainListItems = () => {
           }}
         >
           <ListItemIcon>
-            <CategoryIcon />
+            <ConstructionIcon />
           </ListItemIcon>
-          <ListItemText primary="SpecializedEquipment" />
+          <ListItemText primary="Equipment" />
         </ListItemButton>
       )}
 
@@ -297,9 +321,12 @@ export const MainListItems = () => {
           }}
         >
           <ListItemIcon>
-            <CategoryIcon color="warning" />
+            <SettingsIcon color="warning" />
           </ListItemIcon>
-          <ListItemText primary="TechniqueCategory" sx={{ color: "#ED6C02" }} />
+          <ListItemText
+            primary="Technique Category"
+            sx={{ color: "#ED6C02" }}
+          />
         </ListItemButton>
       ) : (
         <ListItemButton
@@ -308,13 +335,13 @@ export const MainListItems = () => {
           }}
         >
           <ListItemIcon>
-            <CategoryIcon />
+            <SettingsIcon />
           </ListItemIcon>
-          <ListItemText primary="TechniqueCategory" />
+          <ListItemText primary="Technique Category" />
         </ListItemButton>
       )}
 
-      {pathname == "/panel/users" ? (
+      {/* {pathname == "/panel/users" ? (
         <ListItemButton
           onClick={() => {
             navigate("/panel/users");
@@ -336,9 +363,9 @@ export const MainListItems = () => {
           </ListItemIcon>
           <ListItemText primary="Users" />
         </ListItemButton>
-      )}
+      )} */}
 
-      {pathname == "/panel/roles" ? (
+      {/* {pathname == "/panel/roles" ? (
         <ListItemButton
           onClick={() => {
             navigate("/panel/roles");
@@ -360,31 +387,7 @@ export const MainListItems = () => {
           </ListItemIcon>
           <ListItemText primary="Roles" />
         </ListItemButton>
-      )}
-
-      {pathname == "/panel/order" ? (
-        <ListItemButton
-          onClick={() => {
-            navigate("/panel/order");
-          }}
-        >
-          <ListItemIcon>
-            <CategoryIcon color="warning" />
-          </ListItemIcon>
-          <ListItemText primary="Order" sx={{ color: "#ED6C02" }} />
-        </ListItemButton>
-      ) : (
-        <ListItemButton
-          onClick={() => {
-            navigate("/panel/order");
-          }}
-        >
-          <ListItemIcon>
-            <CategoryIcon />
-          </ListItemIcon>
-          <ListItemText primary="Order" />
-        </ListItemButton>
-      )}
+      )} */}
     </React.Fragment>
   );
 };
