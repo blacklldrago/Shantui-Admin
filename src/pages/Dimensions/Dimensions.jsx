@@ -6,7 +6,10 @@ import AddCircle from "@mui/icons-material/AddCircle";
 import MuiModal from "../../components/Modal";
 
 import DimensionsTable from "../../components/DimensionsTable";
+
+import Circle from "../../components/Loaders/Circle";
 const Dimensions = () => {
+  const [loader, setLoader] = useState(false);
   const [dimensions, setDimensions] = useState([]);
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -23,14 +26,19 @@ const Dimensions = () => {
   };
 
   const getDimensions = async () => {
+    setLoader(true);
     try {
       const { data } = await axiosRequest.get("Dimensions/GetFilterDimensions");
       setDimensions(data.data);
-    } catch (error) {}
+      setLoader(false);
+    } catch (error) {
+      setLoader(false);
+    }
   };
 
   const addDimensions = async (event) => {
     event.preventDefault();
+    setLoader(true);
     try {
       let newDimensions = {
         transportLength: event.target["transportLength"].value,
@@ -42,22 +50,30 @@ const Dimensions = () => {
         newDimensions
       );
 
+      setLoader(false);
       getDimensions();
       setAddModal(false);
-    } catch (error) {}
+    } catch (error) {
+      setLoader(false);
+    }
   };
   const deleteDimensions = async (id) => {
+    setLoader(true);
     try {
       const { data } = await axiosRequest.delete(
         `Dimensions/DeleteDimension?id=${id}`
       );
 
+      setLoader(false);
       getDimensions();
-    } catch (error) {}
+    } catch (error) {
+      setLoader(false);
+    }
   };
 
   const editDimensions = async (event) => {
     event.preventDefault();
+    setLoader(true);
     try {
       let updatedDimensions = {
         id: idx,
@@ -69,9 +85,12 @@ const Dimensions = () => {
         "Dimensions/UpdateDimension",
         updatedDimensions
       );
+      setLoader(false);
       getDimensions();
       setEditModal(false);
-    } catch (error) {}
+    } catch (error) {
+      setLoader(false);
+    }
   };
 
   useEffect(() => {
@@ -79,129 +98,135 @@ const Dimensions = () => {
   }, []);
   return (
     <>
-      <Title>Dimensions</Title>
-      <Grid container spacing={2} direction="row">
-        <Grid item alignSelf="flex">
-          <IconButton color="warning" onClick={() => setAddModal(true)}>
-            <AddCircle fontSize="large" />
-          </IconButton>
-        </Grid>
-        <DimensionsTable
-          data={dimensions}
-          deleteDimensions={deleteDimensions}
-          handleModal={handleModal}
-        />
-      </Grid>
+      {loader ? (
+        <Circle />
+      ) : (
+        <>
+          <Title>Dimensions</Title>
+          <Grid container spacing={2} direction="row">
+            <Grid item alignSelf="flex">
+              <IconButton color="warning" onClick={() => setAddModal(true)}>
+                <AddCircle fontSize="large" />
+              </IconButton>
+            </Grid>
+            <DimensionsTable
+              data={dimensions}
+              deleteDimensions={deleteDimensions}
+              handleModal={handleModal}
+            />
+          </Grid>
 
-      <MuiModal
-        open={addModal}
-        handleClose={() => setAddModal(false)}
-        title="Add Dimensions"
-      >
-        <form onSubmit={addDimensions}>
-          <TextField
-            fullWidth
-            id="transportLength"
-            name="transportLength"
-            label="Transport Length"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-          />
-
-          <TextField
-            fullWidth
-            id="transportWidth"
-            name="transportWidth"
-            label="Transport Width"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="transportHeight"
-            name="transportHeight"
-            label="Transport Height"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-          />
-          <Button
-            color="warning"
-            variant="contained"
-            sx={{ mt: 3 }}
-            fullWidth
-            type="submit"
+          <MuiModal
+            open={addModal}
+            handleClose={() => setAddModal(false)}
+            title="Add Dimensions"
           >
-            Submit
-          </Button>
-        </form>
-      </MuiModal>
+            <form onSubmit={addDimensions}>
+              <TextField
+                fullWidth
+                id="transportLength"
+                name="transportLength"
+                label="Transport Length"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                type="number"
+              />
 
-      <MuiModal
-        open={editModal}
-        handleClose={() => setEditModal(false)}
-        title="Edit Dimensions"
-      >
-        <form onSubmit={editDimensions}>
-          <TextField
-            fullWidth
-            id="transportLength"
-            name="transportLength"
-            label="Transport Length"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-            value={transportLength}
-            onChange={(e) => setTransportLength(e.target.value)}
-          />
+              <TextField
+                fullWidth
+                id="transportWidth"
+                name="transportWidth"
+                label="Transport Width"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                type="number"
+              />
+              <TextField
+                fullWidth
+                id="transportHeight"
+                name="transportHeight"
+                label="Transport Height"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                type="number"
+              />
+              <Button
+                color="warning"
+                variant="contained"
+                sx={{ mt: 3 }}
+                fullWidth
+                type="submit"
+              >
+                Submit
+              </Button>
+            </form>
+          </MuiModal>
 
-          <TextField
-            fullWidth
-            id="transportWidth"
-            name="transportWidth"
-            label="Transport Width"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-            value={transportWidth}
-            onChange={(e) => setTransportWidth(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            id="transportHeight"
-            name="transportHeight"
-            label="Transport Height"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="number"
-            value={transportHeight}
-            onChange={(e) => setTransportHeight(e.target.value)}
-          />
-          <Button
-            color="warning"
-            variant="contained"
-            sx={{ mt: 3 }}
-            fullWidth
-            type="submit"
+          <MuiModal
+            open={editModal}
+            handleClose={() => setEditModal(false)}
+            title="Edit Dimensions"
           >
-            Submit
-          </Button>
-        </form>
-      </MuiModal>
+            <form onSubmit={editDimensions}>
+              <TextField
+                fullWidth
+                id="transportLength"
+                name="transportLength"
+                label="Transport Length"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                type="number"
+                value={transportLength}
+                onChange={(e) => setTransportLength(e.target.value)}
+              />
+
+              <TextField
+                fullWidth
+                id="transportWidth"
+                name="transportWidth"
+                label="Transport Width"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                type="number"
+                value={transportWidth}
+                onChange={(e) => setTransportWidth(e.target.value)}
+              />
+              <TextField
+                fullWidth
+                id="transportHeight"
+                name="transportHeight"
+                label="Transport Height"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                type="number"
+                value={transportHeight}
+                onChange={(e) => setTransportHeight(e.target.value)}
+              />
+              <Button
+                color="warning"
+                variant="contained"
+                sx={{ mt: 3 }}
+                fullWidth
+                type="submit"
+              >
+                Submit
+              </Button>
+            </form>
+          </MuiModal>
+        </>
+      )}
     </>
   );
 };

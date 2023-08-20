@@ -5,8 +5,9 @@ import { Button, Grid, IconButton, TextField } from "@mui/material";
 import AddCircle from "@mui/icons-material/AddCircle";
 import MuiModal from "../../components/Modal";
 import CustomerTable from "../../components/CustomerTable";
-
+import Circle from "../../components/Loaders/Circle";
 const Customer = () => {
+  const [loader, setLoader] = useState(false);
   const [customer, setCustomer] = useState([]);
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -27,14 +28,18 @@ const Customer = () => {
   };
 
   const getCustomer = async () => {
+    setLoader(true);
     try {
       const { data } = await axiosRequest.get("Customer/GetFilterCustomers");
+      setLoader(false);
       setCustomer(data.data);
-    } catch (error) {}
+    } catch (error) {
+      setLoader(false);
+    }
   };
   const addCustomer = async (event) => {
     event.preventDefault();
-
+    setLoader(true);
     const newCustomer = new FormData();
     newCustomer.append("FirstName", event.target["firstName"].value);
     newCustomer.append("LastName", event.target["lastName"].value);
@@ -50,21 +55,29 @@ const Customer = () => {
       );
 
       getCustomer();
+      setLoader(false);
       setAddModal(false);
-    } catch (error) {}
+    } catch (error) {
+      setLoader(false);
+    }
   };
   const deleteCustomer = async (id) => {
+    setLoader(true);
     try {
       const { data } = await axiosRequest.delete(
         `Customer/DeleteCustomer?id=${id}`
       );
 
+      setLoader(false);
       getCustomer();
-    } catch (error) {}
+    } catch (error) {
+      setLoader(false);
+    }
   };
 
   const editCustomer = async (event) => {
     event.preventDefault();
+    setLoader(true);
     const updatedCustomer = new FormData();
     updatedCustomer.append("Id", idx);
     updatedCustomer.append("FirstName", firstName);
@@ -80,7 +93,10 @@ const Customer = () => {
       );
       getCustomer();
       setEditModal(false);
-    } catch (error) {}
+      setLoader(false);
+    } catch (error) {
+      setLoader(false);
+    }
   };
 
   useEffect(() => {
@@ -88,169 +104,175 @@ const Customer = () => {
   }, []);
   return (
     <>
-      <Title>Customer</Title>
-      <Grid container spacing={2} direction="row">
-        <Grid item alignSelf="flex">
-          <IconButton color="warning" onClick={() => setAddModal(true)}>
-            <AddCircle fontSize="large" />
-          </IconButton>
-        </Grid>
-        <CustomerTable
-          data={customer}
-          deleteCustomer={deleteCustomer}
-          handleModal={handleModal}
-        />
-      </Grid>
+      {loader ? (
+        <Circle />
+        ) : (
+          <>
+          <Title>Customer</Title>
+          <Grid container spacing={2} direction="row">
+            <Grid item alignSelf="flex">
+              <IconButton color="warning" onClick={() => setAddModal(true)}>
+                <AddCircle fontSize="large" />
+              </IconButton>
+            </Grid>
+            <CustomerTable
+              data={customer}
+              deleteCustomer={deleteCustomer}
+              handleModal={handleModal}
+            />
+          </Grid>
 
-      <MuiModal
-        open={addModal}
-        handleClose={() => setAddModal(false)}
-        title="Add Customer"
-      >
-        <form onSubmit={addCustomer}>
-          <TextField
-            fullWidth
-            id="firstName"
-            name="firstName"
-            label="First Name"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-          />
-
-          <TextField
-            fullWidth
-            id="lastName"
-            name="lastName"
-            label="Last Name"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-          />
-          <TextField
-            fullWidth
-            id="phoneNumber"
-            name="phoneNumber"
-            label="Phone Number"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-          />
-          <TextField
-            fullWidth
-            id="description"
-            name="description"
-            label="Description"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-          />
-          <TextField
-            fullWidth
-            id="email"
-            name="email"
-            label="Email"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="email"
-          />
-          <Button
-            color="warning"
-            variant="contained"
-            sx={{ mt: 3 }}
-            fullWidth
-            type="submit"
+          <MuiModal
+            open={addModal}
+            handleClose={() => setAddModal(false)}
+            title="Add Customer"
           >
-            Submit
-          </Button>
-        </form>
-      </MuiModal>
+            <form onSubmit={addCustomer}>
+              <TextField
+                fullWidth
+                id="firstName"
+                name="firstName"
+                label="First Name"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+              />
 
-      <MuiModal
-        open={editModal}
-        handleClose={() => setEditModal(false)}
-        title="Edit Customer"
-      >
-        <form onSubmit={editCustomer}>
-          <TextField
-            fullWidth
-            id="firstName"
-            name="firstName"
-            label="First Name"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
+              <TextField
+                fullWidth
+                id="lastName"
+                name="lastName"
+                label="Last Name"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+              />
+              <TextField
+                fullWidth
+                id="phoneNumber"
+                name="phoneNumber"
+                label="Phone Number"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+              />
+              <TextField
+                fullWidth
+                id="description"
+                name="description"
+                label="Description"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+              />
+              <TextField
+                fullWidth
+                id="email"
+                name="email"
+                label="Email"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                type="email"
+              />
+              <Button
+                color="warning"
+                variant="contained"
+                sx={{ mt: 3 }}
+                fullWidth
+                type="submit"
+              >
+                Submit
+              </Button>
+            </form>
+          </MuiModal>
 
-          <TextField
-            fullWidth
-            id="lastName"
-            name="lastName"
-            label="Last Name"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            id="phoneNumber"
-            name="phoneNumber"
-            label="Phone Number"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            id="description"
-            name="description"
-            label="Description"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            id="email"
-            name="email"
-            label="Email"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <Button
-            color="warning"
-            variant="contained"
-            sx={{ mt: 3 }}
-            fullWidth
-            type="submit"
+          <MuiModal
+            open={editModal}
+            handleClose={() => setEditModal(false)}
+            title="Edit Customer"
           >
-            Submit
-          </Button>
-        </form>
-      </MuiModal>
+            <form onSubmit={editCustomer}>
+              <TextField
+                fullWidth
+                id="firstName"
+                name="firstName"
+                label="First Name"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+
+              <TextField
+                fullWidth
+                id="lastName"
+                name="lastName"
+                label="Last Name"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+              <TextField
+                fullWidth
+                id="phoneNumber"
+                name="phoneNumber"
+                label="Phone Number"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+              <TextField
+                fullWidth
+                id="description"
+                name="description"
+                label="Description"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+              <TextField
+                fullWidth
+                id="email"
+                name="email"
+                label="Email"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Button
+                color="warning"
+                variant="contained"
+                sx={{ mt: 3 }}
+                fullWidth
+                type="submit"
+              >
+                Submit
+              </Button>
+            </form>
+          </MuiModal>
+        </>
+      )}
     </>
   );
 };

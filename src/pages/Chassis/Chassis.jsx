@@ -5,8 +5,9 @@ import { Button, Grid, IconButton, TextField } from "@mui/material";
 import AddCircle from "@mui/icons-material/AddCircle";
 import MuiModal from "../../components/Modal";
 import ChassisTable from "../../components/ChassisTable";
-
+import Circle from "../../components/Loaders/Circle";
 const Chassis = () => {
+  const [loader, setLoader] = useState(false);
   const [chassis, setChassis] = useState([]);
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -31,12 +32,17 @@ const Chassis = () => {
   };
 
   const getChassis = async () => {
+    setLoader(true);
     try {
       const { data } = await axiosRequest.get("Chassis/GetFilterChassis");
       setChassis(data.data);
-    } catch (error) {}
+      setLoader(false);
+    } catch (error) {
+      setLoader(false);
+    }
   };
   const addChassis = async (event) => {
+    setLoader(true);
     event.preventDefault();
     try {
       let newChassis = {
@@ -53,22 +59,29 @@ const Chassis = () => {
         newChassis
       );
 
-      getChassis();
+      setLoader(false);
       setAddModal(false);
-    } catch (error) {}
+      getChassis();
+    } catch (error) {
+      setLoader(false);
+    }
   };
   const deleteChassis = async (id) => {
+    setLoader(true);
     try {
       const { data } = await axiosRequest.delete(
         `Chassis/DeleteChassis?id=${id}`
       );
-
+      setLoader(false);
       getChassis();
-    } catch (error) {}
+    } catch (error) {
+      setLoader(false);
+    }
   };
 
   const editChassis = async (event) => {
     event.preventDefault();
+    setLoader(true);
     try {
       let updatedChassis = {
         id: idx,
@@ -86,7 +99,10 @@ const Chassis = () => {
       );
       getChassis();
       setEditModal(false);
-    } catch (error) {}
+      setLoader(false);
+    } catch (error) {
+      setLoader(false);
+    }
   };
 
   useEffect(() => {
@@ -94,234 +110,228 @@ const Chassis = () => {
   }, []);
   return (
     <>
-      <Title>Chassis</Title>
-      <Grid container spacing={2} direction="row">
-        <Grid item alignSelf="flex">
-          <IconButton color="warning" onClick={() => setAddModal(true)}>
-            <AddCircle fontSize="large" />
-          </IconButton>
-        </Grid>
-        <ChassisTable
-          data={chassis}
-          deleteChassis={deleteChassis}
-          handleModal={handleModal}
-        />
-      </Grid>
+      {loader ? (
+        <Circle />
+      ) : (
+        <>
+          <Title>Chassis</Title>
+          <Grid container spacing={2} direction="row">
+            <Grid item alignSelf="flex">
+              <IconButton color="warning" onClick={() => setAddModal(true)}>
+                <AddCircle fontSize="large" />
+              </IconButton>
+            </Grid>
+            <ChassisTable
+              data={chassis}
+              deleteChassis={deleteChassis}
+              handleModal={handleModal}
+            />
+          </Grid>
 
-      <MuiModal
-        open={addModal}
-        handleClose={() => setAddModal(false)}
-        title="Add Chassis"
-      >
-        <form onSubmit={addChassis}>
-          <TextField
-            fullWidth
-            id="shoeType"
-            name="shoeType"
-            label="Shoe Type"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-          />
-
-          <TextField
-            fullWidth
-            id="trackWidth"
-            name="trackWidth"
-            label="Track Width"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="shoeWidth"
-            name="shoeWidth"
-            label="Shoe Width"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="groundEngagementLength"
-            name="groundEngagementLength"
-            label="Ground Engagement Length"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="maxForwardSpeed"
-            name="maxForwardSpeed"
-            label="Max Forward Speed"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="maxReverseSpeed"
-            name="maxReverseSpeed"
-            label="Max Reverse Speed"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="groundClearance"
-            name="groundClearance"
-            label="Ground Clearance"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            
-            type="number"
-          />
-          <Button
-            color="warning"
-            variant="contained"
-            sx={{ mt: 3 }}
-            fullWidth
-            type="submit"
+          <MuiModal
+            open={addModal}
+            handleClose={() => setAddModal(false)}
+            title="Add Chassis"
           >
-            Submit
-          </Button>
-        </form>
-      </MuiModal>
+            <form onSubmit={addChassis}>
+              <TextField
+                fullWidth
+                id="shoeType"
+                name="shoeType"
+                label="Shoe Type"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+              />
 
-      <MuiModal
-        open={editModal}
-        handleClose={() => setEditModal(false)}
-        title="Edit Chassis"
-      >
-        <form onSubmit={editChassis}>
-          <TextField
-            fullWidth
-            id="shoeType"
-            name="shoeType"
-            label="Shoe Type"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            value={shoeType}
-            onChange={(e) => setShoeType(e.target.value)}
-          />
-          <TextField
-            fullWidth
-            id="trackWidth"
-            name="trackWidth"
-            label="Track Width"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            value={trackWidth}
-            onChange={(e) => setTrackWidth(e.target.value)}
-            
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="shoeWidth"
-            name="shoeWidth"
-            label="Shoe Width"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            value={shoeWidth}
-            onChange={(e) => setShoeWidth(e.target.value)}
-            
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="groundEngagementLength"
-            name="groundEngagementLength"
-            label="Ground Engagement Length"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            value={groundEngagementLength}
-            onChange={(e) => setGroundEngagementLength(e.target.value)}
-            
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="maxForwardSpeed"
-            name="maxForwardSpeed"
-            label="Max Forward Speed"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            value={maxForwardSpeed}
-            onChange={(e) => setMaxForwardSpeed(e.target.value)}
-            
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="maxReverseSpeed"
-            name="maxReverseSpeed"
-            label="Max Reverse Speed"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            value={maxReverseSpeed}
-            onChange={(e) => setMaxReverseSpeed(e.target.value)}
-            
-            type="number"
-          />
-          <TextField
-            fullWidth
-            id="groundClearance"
-            name="groundClearance"
-            label="Ground Clearance"
-            color="warning"
-            sx={{
-              mb: "10px",
-            }}
-            value={groundClearance}
-            onChange={(e) => setGroundClearance(e.target.value)}
-            
-            type="number"
-          />
-          <Button
-            color="warning"
-            variant="contained"
-            sx={{ mt: 3 }}
-            fullWidth
-            type="submit"
+              <TextField
+                fullWidth
+                id="trackWidth"
+                name="trackWidth"
+                label="Track Width"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                type="number"
+              />
+              <TextField
+                fullWidth
+                id="shoeWidth"
+                name="shoeWidth"
+                label="Shoe Width"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                type="number"
+              />
+              <TextField
+                fullWidth
+                id="groundEngagementLength"
+                name="groundEngagementLength"
+                label="Ground Engagement Length"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                type="number"
+              />
+              <TextField
+                fullWidth
+                id="maxForwardSpeed"
+                name="maxForwardSpeed"
+                label="Max Forward Speed"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                type="number"
+              />
+              <TextField
+                fullWidth
+                id="maxReverseSpeed"
+                name="maxReverseSpeed"
+                label="Max Reverse Speed"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                type="number"
+              />
+              <TextField
+                fullWidth
+                id="groundClearance"
+                name="groundClearance"
+                label="Ground Clearance"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                type="number"
+              />
+              <Button
+                color="warning"
+                variant="contained"
+                sx={{ mt: 3 }}
+                fullWidth
+                type="submit"
+              >
+                Submit
+              </Button>
+            </form>
+          </MuiModal>
+
+          <MuiModal
+            open={editModal}
+            handleClose={() => setEditModal(false)}
+            title="Edit Chassis"
           >
-            Submit
-          </Button>
-        </form>
-      </MuiModal>
+            <form onSubmit={editChassis}>
+              <TextField
+                fullWidth
+                id="shoeType"
+                name="shoeType"
+                label="Shoe Type"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                value={shoeType}
+                onChange={(e) => setShoeType(e.target.value)}
+              />
+              <TextField
+                fullWidth
+                id="trackWidth"
+                name="trackWidth"
+                label="Track Width"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                value={trackWidth}
+                onChange={(e) => setTrackWidth(e.target.value)}
+                type="number"
+              />
+              <TextField
+                fullWidth
+                id="shoeWidth"
+                name="shoeWidth"
+                label="Shoe Width"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                value={shoeWidth}
+                onChange={(e) => setShoeWidth(e.target.value)}
+                type="number"
+              />
+              <TextField
+                fullWidth
+                id="groundEngagementLength"
+                name="groundEngagementLength"
+                label="Ground Engagement Length"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                value={groundEngagementLength}
+                onChange={(e) => setGroundEngagementLength(e.target.value)}
+                type="number"
+              />
+              <TextField
+                fullWidth
+                id="maxForwardSpeed"
+                name="maxForwardSpeed"
+                label="Max Forward Speed"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                value={maxForwardSpeed}
+                onChange={(e) => setMaxForwardSpeed(e.target.value)}
+                type="number"
+              />
+              <TextField
+                fullWidth
+                id="maxReverseSpeed"
+                name="maxReverseSpeed"
+                label="Max Reverse Speed"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                value={maxReverseSpeed}
+                onChange={(e) => setMaxReverseSpeed(e.target.value)}
+                type="number"
+              />
+              <TextField
+                fullWidth
+                id="groundClearance"
+                name="groundClearance"
+                label="Ground Clearance"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                value={groundClearance}
+                onChange={(e) => setGroundClearance(e.target.value)}
+                type="number"
+              />
+              <Button
+                color="warning"
+                variant="contained"
+                sx={{ mt: 3 }}
+                fullWidth
+                type="submit"
+              >
+                Submit
+              </Button>
+            </form>
+          </MuiModal>
+        </>
+      )}
     </>
   );
 };
