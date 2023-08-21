@@ -14,9 +14,9 @@ export default function OperatingCharacteristicsTable({ data, deleteOperatingCha
   return (
     <TableContainer
       component={Paper}
-      sx={{ width: "96%", margin: "auto", mt: "30px" }}
+      sx={{width:"100%", margin: "auto", mt: "30px" }}
     >
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ width:"100%" }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="center">Operating weight</TableCell>

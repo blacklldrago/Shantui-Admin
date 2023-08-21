@@ -14,12 +14,12 @@ export default function AboutProductCard({
   children,
 }) {
   return (
-    <Card sx={{  mt: 10 }}>
+    <Card sx={{ height:360, mt: 10 }}>
       <CardActionArea>
         <CardMedia
           component="img"
           height="150"
-          image={aboutProductImage}
+          image={"https://www.motortrend.com/uploads/2023/04/1-2022-ram-1500-trx-ignition-edition.jpg"}
           alt={aboutProductImage}
         />
         <CardContent>
@@ -33,8 +33,8 @@ export default function AboutProductCard({
           <Typography>{adaptiveAbilityToWork}</Typography>
           <Typography>{easeOfMaintenance}</Typography>
         </CardContent>
+      <CardActions><div style={{position:"relative", bottom:"10px"}}>{children}</div></CardActions>
       </CardActionArea>
-      <CardActions>{children}</CardActions>
     </Card>
   );
 }

@@ -47,6 +47,7 @@ export default function MuiModal(props) {
   return (
     <div>
       <BootstrapDialog
+      
         onClose={props.handleClose}
         aria-labelledby="customized-dialog-title"
         open={props.open}

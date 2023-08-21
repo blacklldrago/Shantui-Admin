@@ -16,7 +16,7 @@ export default function Dimensions({ data, deleteDimensions, handleModal }) {
       component={Paper}
       sx={{ width: "96%", margin: "auto", mt: "30px" }}
     >
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ width:"100%" }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="center">Transport Lenght</TableCell>

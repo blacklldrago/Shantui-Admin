@@ -16,7 +16,7 @@ export default function AdditionalInfoTable({ data, deleteAdditionalInfo, handle
       component={Paper}
       sx={{ width: "80%", margin: "auto", mt: "90px" }}
     >
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ width:"100%" }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="center">Brand</TableCell>

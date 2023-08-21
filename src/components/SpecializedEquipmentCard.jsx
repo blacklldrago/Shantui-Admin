@@ -16,7 +16,7 @@ export default function SpecializedEquipmentCard({
   return (
     <Card sx={{height:320,  mt: 10 }}>
       <CardActionArea>
-        <CardMedia component="img" height="170" image={img} alt={name} />
+        <CardMedia component="img" height="170" image={"https://www.motortrend.com/uploads/2023/04/1-2022-ram-1500-trx-ignition-edition.jpg"} alt={name} />
         <CardContent>
           <Tooltip title={name} arrow>
             <Typography gutterBottom variant="h5" noWrap component="div">
@@ -30,8 +30,8 @@ export default function SpecializedEquipmentCard({
             })}
           </Tooltip>
         </CardContent>
+      <CardActions><div style={{position:"relative", bottom:"10px"}}>{children}</div></CardActions>
       </CardActionArea>
-      <CardActions>{children}</CardActions>
     </Card>
   );
 }

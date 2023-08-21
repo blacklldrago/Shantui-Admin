@@ -293,6 +293,7 @@ const Products = () => {
     getTechniqueCategory();
   }, []);
 
+
   return (
     <>
       {loader ? (
@@ -328,7 +329,7 @@ const Products = () => {
                       //massives
                       //massives
                       //massives
-                      engine = {engine}
+                      engine={engine}
                       operatingCharacteristics={operatingCharacteristics}
                       dimensions={dimensions}
                       chassis={chassis}
@@ -338,6 +339,7 @@ const Products = () => {
                       specializedEquipment={specializedEquipment}
                       techniqueCategory={techniqueCategory}
                       aboutProduct={aboutProduct}
+                      
                     >
                       <IconButton
                         color="warning"
