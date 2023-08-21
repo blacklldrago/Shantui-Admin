@@ -140,7 +140,7 @@ const SubCategories = () => {
         <Circle />
       ) : (
         <>
-          <Title>SubCategories</Title>
+          <Title>Sub Categories</Title>
           <Grid container spacing={2} direction="row">
             <Grid item alignSelf="flex">
               <IconButton color="warning" onClick={() => setAddModal(true)}>
@@ -152,7 +152,7 @@ const SubCategories = () => {
               categories.map((e) => {
                 return (
                   <Grid key={e.id} item xs={12} sm={6} md={4} lg={3}>
-                    <SubCategoriesCard name={e.name} img={e.imageName}>
+                    <SubCategoriesCard name={e.name} img={e.imageName} specializedEquipmentId = {e.specializedEquipmentId} specializedEquipment = {specializedEquipment}>
                       <IconButton
                         color="warning"
                         onClick={() => {

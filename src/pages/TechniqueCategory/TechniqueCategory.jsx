@@ -107,7 +107,7 @@ const TechniqueCategory = () => {
         <Circle />
       ) : (
         <>
-          <Title>TechniqueCategory</Title>
+          <Title>Technique Category</Title>
           <Grid container spacing={2} direction="row">
             <Grid item alignSelf="flex">
               <IconButton color="warning" onClick={() => setAddModal(true)}>

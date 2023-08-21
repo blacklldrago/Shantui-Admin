@@ -152,7 +152,7 @@ const SpecializedEquipment = () => {
               specializedEquipment.map((e) => {
                 return (
                   <Grid key={e.id} item xs={12} sm={6} md={4} lg={3}>
-                    <SpecializedEquipmentCard name={e.name} img={e.imageName}>
+                    <SpecializedEquipmentCard name={e.name} img={e.imageName} techidx={e.techniqueCategoryId} tech = {techniqueCategory }>
                       <IconButton
                         color="warning"
                         onClick={() => {
