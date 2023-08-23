@@ -10,13 +10,17 @@ import { IconButton } from "@mui/material";
 
 import Delete from "@mui/icons-material/Delete";
 import Edit from "@mui/icons-material/Edit";
-export default function OperatingCharacteristicsTable({ data, deleteOperatingCharacteristics, handleModal }) {
+export default function OperatingCharacteristicsTable({
+  data,
+  deleteOperatingCharacteristics,
+  handleModal,
+}) {
   return (
     <TableContainer
       component={Paper}
-      sx={{width:"100%", margin: "auto", mt: "30px" }}
+      sx={{ width: "100%", margin: "auto", mt: "30px" }}
     >
-      <Table sx={{ width:"100%" }} aria-label="simple table">
+      <Table sx={{ width: "100%" }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="center">Operating weight</TableCell>
@@ -49,10 +53,13 @@ export default function OperatingCharacteristicsTable({ data, deleteOperatingCha
               <TableCell align="center">{row.bladeVolume}</TableCell>
               <TableCell align="center">{row.groundPressure}</TableCell>
               <TableCell align="center">
-                <IconButton color="error" onClick={()=>deleteOperatingCharacteristics(row.id)}>
+                <IconButton
+                  color="error"
+                  onClick={() => deleteOperatingCharacteristics(row.id)}
+                >
                   <Delete />
                 </IconButton>
-                <IconButton color="warning" onClick={()=>handleModal(row)}>
+                <IconButton color="warning" onClick={() => handleModal(row)}>
                   <Edit />
                 </IconButton>
               </TableCell>

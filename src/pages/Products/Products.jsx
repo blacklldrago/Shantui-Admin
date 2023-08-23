@@ -39,7 +39,6 @@ const Products = () => {
   const [editModal, setEditModal] = useState(false);
   const [idx, setIdx] = useState(null);
   const [imageName, setImageName] = useState("");
-  const [name, setName] = useState("");
   // idx's"
   const [specializedEquipmentidx, setSpecializedEquipmentidx] = useState(null);
   const [specializedEquipmentidx1, setSpecializedEquipmentidx1] =
@@ -65,12 +64,25 @@ const Products = () => {
   const [aboutProductidx, setAboutProductidx] = useState(null);
   const [aboutProductidx1, setAboutProductidx1] = useState(null);
 
+  const [productName, setProductName] = useState("");
+  const [price, setPrice] = useState(null);
+
   const handleModal = (obj) => {
     setEditModal(true);
     setIdx(obj.id);
-    setSpecializedEquipmentidx(obj.specializedEquipmentId);
-    setImageName(obj.imageName);
-    setName(obj.name);
+    setImageName(obj.productImages);
+    setEngineidx1(obj.engineId);
+    setProductName(obj.productName);
+    setOperatingCharacteristicsidx1(obj.operatingCharacteristicsId);
+    setDiamensionidx1(obj.dimensionsId);
+    setPrice(obj.price);
+    setSpecializedEquipmentidx1(obj.specializedEquipmentId);
+    setTechidx1(obj.techniqueCategoryId);
+    setAboutProductidx1(obj.aboutProductId);
+    setAdditionalInfoidx1(obj.additionalInformationId);
+    setSubCategoryidx1(obj.subCategoryId);
+    setCapacitiesidx1(obj.capacitiesId);
+    setChassisidx1(obj.chassisId);
   };
   const getProducts = async () => {
     setLoader(true);
@@ -253,31 +265,41 @@ const Products = () => {
     }
   };
 
-  // const editSubCategories = async (event) => {
-  //   event.preventDefault();
-  //   setLoader(true);
+  const editProduct = async (event) => {
+    event.preventDefault();
+    setLoader(true);
+    let updatedProduct = new FormData();
+    updatedProduct.append("Id", imageName);
+    updatedProduct.append("Id", idx);
+    updatedProduct.append("ProductImages", imageName);
+    updatedProduct.append("ProductName", event.target["productName"].value);
+    updatedProduct.append("EngineId", engineidx1);
+    updatedProduct.append(
+      "OperatingCharacteristicsId",
+      operatingCharacteristicsidx1
+    );
+    updatedProduct.append("DimensionsId", diamensionidx1);
+    updatedProduct.append("Price", event.target["price"].value);
+    updatedProduct.append("ChassisId", chassisidx1);
+    updatedProduct.append("CapacitiesId", capacitiesidx1);
+    updatedProduct.append("AdditionalInformationId", additionalInfoidx1);
+    updatedProduct.append("SubCategoryId", subCategoryidx1);
+    updatedProduct.append("SpecializedEquipmentId", specializedEquipmentidx1);
+    updatedProduct.append("TechniqueCategoryId", techidx1);
+    updatedProduct.append("AboutProductId", aboutProductidx1);
 
-  //   let updatedSubCategories = new FormData();
-  //   updatedSubCategories.append("Id", idx);
-  //   updatedSubCategories.append("ImageName", imageName);
-  //   updatedSubCategories.append("Name", name);
-  //   updatedSubCategories.append(
-  //     "SpecializedEquipmentId",
-  //     specializedEquipmentidx
-  //   );
-
-  //   try {
-  //     const { data } = await axiosRequest.put(
-  //       "SubCategory/UpdateSubCategory",
-  //       updatedSubCategories
-  //     );
-  //     getSubCategories();
-  //     setEditModal(false);
-  //     setLoader(false);
-  //   } catch (error) {
-  //     setLoader(false);
-  //   }
-  // };
+    try {
+      const { data } = await axiosRequest.put(
+        "Product/UpdateProduct",
+        updatedProduct
+      );
+      getProducts();
+      setEditModal(false);
+      setLoader(false);
+    } catch (error) {
+      setLoader(false);
+    }
+  };
 
   useEffect(() => {
     getProducts();
@@ -292,7 +314,6 @@ const Products = () => {
     getSpecializedEquipment();
     getTechniqueCategory();
   }, []);
-
 
   return (
     <>
@@ -339,13 +360,12 @@ const Products = () => {
                       specializedEquipment={specializedEquipment}
                       techniqueCategory={techniqueCategory}
                       aboutProduct={aboutProduct}
-                      
                     >
                       <IconButton
                         color="warning"
-                        // onClick={() => {
-                        //   handleModal(e);
-                        // }}
+                        onClick={() => {
+                          handleModal(e);
+                        }}
                       >
                         <Edit />
                       </IconButton>
@@ -659,50 +679,282 @@ const Products = () => {
               </Button>
             </form>
           </MuiModal>
-          {/*
+
           <MuiModal
             open={editModal}
             handleClose={() => setEditModal(false)}
-            title="Edit Sub Categories"
+            title="Edit Product"
           >
-            <form onSubmit={editSubCategories}>
+            <form onSubmit={editProduct}>
               <TextField
                 fullWidth
-                id="name"
-                name="name"
-                label="Name"
+                id="productName"
+                name="productName"
+                label="Product Name"
                 color="warning"
                 sx={{
                   mb: "10px",
                 }}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
               />
               <FormControl fullWidth>
-                <InputLabel color="warning" id="TechniqueCategoryId">
-                  Specialized EquipmentId
+                <InputLabel color="warning" id="Engine">
+                  Engine
                 </InputLabel>
                 <Select
                   fullWidth
-                  id="SpecializedEquipmentId"
-                  name="SpecializedEquipmentId"
-                  label="Specialized EquipmentId"
+                  id="engineId"
+                  name="engineId"
+                  label="Engine"
                   color="warning"
                   sx={{
                     mb: "10px",
                   }}
-                  value={specializedEquipmentidx}
-                  onChange={(e) => setSpecializedEquipmentidx(e.target.value)}
+                  value={engineidx1}
+                  onChange={(e) => setEngineidx1(e.target.value)}
+                >
+                  {engine.map((e) => {
+                    return (
+                      <MenuItem value={e.id}> Model: {e.engineModel}</MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel color="warning" id="OperatingCharacteristicsId">
+                  Operating Characteristics
+                </InputLabel>
+                <Select
+                  fullWidth
+                  id="operatingCharacteristicsId"
+                  name="operatingCharacteristicsId"
+                  label="Operating Characteristics"
+                  color="warning"
+                  sx={{
+                    mb: "10px",
+                  }}
+                  value={operatingCharacteristicsidx1}
+                  onChange={(e) =>
+                    setOperatingCharacteristicsidx1(e.target.value)
+                  }
+                >
+                  {operatingCharacteristics.map((e) => {
+                    return (
+                      <MenuItem value={e.id}>
+                        {" "}
+                        Weight: {e.operatingWeight}, Blade Type: {e.bladeType}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel color="warning" id="dimensionsId">
+                  Diamensions
+                </InputLabel>
+                <Select
+                  fullWidth
+                  id="dimensionsId"
+                  name="dimensionsId"
+                  label="Dimensions"
+                  color="warning"
+                  sx={{
+                    mb: "10px",
+                  }}
+                  value={diamensionidx1}
+                  onChange={(e) => setDiamensionidx1(e.target.value)}
+                >
+                  {dimensions.map((e) => {
+                    return (
+                      <MenuItem value={e.id}>
+                        {" "}
+                        Width:{e.transportWidth}, Height:{e.transportLength},
+                        Lenght:{e.transportHeight}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+              <TextField
+                fullWidth
+                id="price"
+                name="price"
+                label="Price"
+                color="warning"
+                sx={{
+                  mb: "10px",
+                }}
+                type="number"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+              <FormControl fullWidth>
+                <InputLabel color="warning" id="chassisId">
+                  Chassis
+                </InputLabel>
+                <Select
+                  fullWidth
+                  id="Chassis"
+                  name="Chassis"
+                  label="Chassis"
+                  color="warning"
+                  sx={{
+                    mb: "10px",
+                  }}
+                  value={chassisidx1}
+                  onChange={(e) => setChassisidx1(e.target.value)}
+                >
+                  {chassis.map((e) => {
+                    return (
+                      <MenuItem value={e.id}>
+                        {" "}
+                        Shoe Type: {e.shoeType}{" "}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel color="warning" id="capacitiesId">
+                  Capacities
+                </InputLabel>
+                <Select
+                  fullWidth
+                  id="capacitiesId"
+                  name="capacitiesId"
+                  label="Capacities"
+                  color="warning"
+                  sx={{
+                    mb: "10px",
+                  }}
+                  value={capacitiesidx1}
+                  onChange={(e) => setCapacitiesidx1(e.target.value)}
+                >
+                  {capacities.map((e) => {
+                    return (
+                      <MenuItem value={e.id}>
+                        Fuel Tank: {e.fuelTank}, Cooling System:{" "}
+                        {e.coolingSystem}, Engine Oil: {e.engineOil},
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel color="warning" id="additionalInformationId">
+                  Additional Information
+                </InputLabel>
+                <Select
+                  fullWidth
+                  id="additionalInformationId"
+                  name="additionalInformationId"
+                  label="Additional Information"
+                  color="warning"
+                  sx={{
+                    mb: "10px",
+                  }}
+                  value={additionalInfoidx1}
+                  onChange={(e) => setAdditionalInfoidx1(e.target.value)}
+                >
+                  {additionalInfo.map((e) => {
+                    return <MenuItem value={e.id}>Brand: {e.brand}</MenuItem>;
+                  })}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel color="warning" id="subCategoryId">
+                  Sub Category
+                </InputLabel>
+                <Select
+                  fullWidth
+                  id="subCategoryId"
+                  name="subCategoryId"
+                  label="Additional Information"
+                  color="warning"
+                  sx={{
+                    mb: "10px",
+                  }}
+                  value={subCategoryidx1}
+                  onChange={(e) => setSubCategoryidx1(e.target.value)}
+                >
+                  {subcategories.map((e) => {
+                    return <MenuItem value={e.id}>{e.name}</MenuItem>;
+                  })}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel color="warning" id="specializedEquipmentId">
+                  Specialized Equipment
+                </InputLabel>
+                <Select
+                  fullWidth
+                  id="specializedEquipmentId"
+                  name="specializedEquipmentId"
+                  label="Additional Information"
+                  color="warning"
+                  sx={{
+                    mb: "10px",
+                  }}
+                  value={specializedEquipmentidx1}
+                  onChange={(e) => setSpecializedEquipmentidx1(e.target.value)}
                 >
                   {specializedEquipment.map((e) => {
                     return <MenuItem value={e.id}>{e.name}</MenuItem>;
                   })}
                 </Select>
               </FormControl>
+              <FormControl fullWidth>
+                <InputLabel color="warning" id="techniqueCategoryId">
+                  Technique Category
+                </InputLabel>
+                <Select
+                  fullWidth
+                  id="techniqueCategoryId"
+                  name="techniqueCategoryId"
+                  label="Technique Category"
+                  color="warning"
+                  sx={{
+                    mb: "10px",
+                  }}
+                  value={techidx1}
+                  onChange={(e) => setTechidx1(e.target.value)}
+                >
+                  {techniqueCategory.map((e) => {
+                    return <MenuItem value={e.id}>{e.name}</MenuItem>;
+                  })}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel color="warning" id="aboutProductId">
+                  About Product
+                </InputLabel>
+                <Select
+                  fullWidth
+                  id="aboutProductId"
+                  name="aboutProductId"
+                  label="About Product"
+                  color="warning"
+                  sx={{
+                    mb: "10px",
+                  }}
+                  value={aboutProductidx1}
+                  onChange={(e) => setAboutProductidx1(e.target.value)}
+                >
+                  {aboutProduct.map((e) => {
+                    return (
+                      <MenuItem value={e.id}>
+                        Power System: {e.powerSystem}, Transmission System:{" "}
+                        {e.transmissionSystem}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
 
               <input
                 type="file"
-                name="image"
+                name="productImages"
                 onChange={(e) => setImageName(e.target.files[0])}
               />
               <Button
@@ -715,7 +967,7 @@ const Products = () => {
                 Submit
               </Button>
             </form>
-          </MuiModal> */}
+          </MuiModal>
         </>
       )}
     </>
