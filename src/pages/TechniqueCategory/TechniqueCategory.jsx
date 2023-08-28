@@ -1,7 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Title from "../../components/Title";
 import { axiosRequest } from "../../utils/axiosRequest";
-import { Button, Grid, IconButton, TextField } from "@mui/material";
+import {
+  Button,
+  Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+  imageListClasses,
+} from "@mui/material";
 import AddCircle from "@mui/icons-material/AddCircle";
 import MuiModal from "../../components/Modal";
 import TechniquecategoryCard from "../../components/TechniquecategoryCard";
@@ -10,14 +17,18 @@ import Delete from "@mui/icons-material/Delete";
 import Edit from "@mui/icons-material/Edit";
 
 import Circle from "../../components/Loaders/Circle";
+import { GetApp } from "@mui/icons-material";
 const TechniqueCategory = () => {
   const [techniqueCategory, setTechniqueCategory] = useState([]);
   const [addModal, setAddModal] = useState(false);
   const [loader, setLoader] = useState(false);
-  const [image, setImage] = useState("");
   const [editModal, setEditModal] = useState(false);
   const [idx, setIdx] = useState(null);
+  const [image, setImage] = useState("");
+
   const [imageName, setImageName] = useState("");
+  const videoRef = useRef(null);
+
   const [name, setName] = useState("");
   const handleModal = (obj) => {
     setEditModal(true);
@@ -42,7 +53,6 @@ const TechniqueCategory = () => {
   const addTechniqueCategory = async (event) => {
     event.preventDefault();
     setLoader(true);
-
     let newTechniqueCategory = new FormData();
     newTechniqueCategory.append("ImageName", image);
     newTechniqueCategory.append("Name", event.target["name"].value);
@@ -56,8 +66,10 @@ const TechniqueCategory = () => {
       getTechniqueCategory();
       setAddModal(false);
       setLoader(false);
+      setImage("");
     } catch (error) {
       setLoader(false);
+      setImage("");
     }
   };
 
@@ -78,6 +90,7 @@ const TechniqueCategory = () => {
 
   const editTechniqueCategory = async (event) => {
     event.preventDefault();
+    console.log(imageName);
     setLoader(true);
 
     let updatedTechniqueCategory = new FormData();
@@ -108,13 +121,12 @@ const TechniqueCategory = () => {
       ) : (
         <>
           <Title>Technique Category</Title>
+          <Grid item alignSelf="flex">
+            <IconButton color="warning" onClick={() => setAddModal(true)}>
+              <AddCircle fontSize="large" />
+            </IconButton>
+          </Grid>
           <Grid container spacing={2} direction="row">
-            <Grid item alignSelf="flex">
-              <IconButton color="warning" onClick={() => setAddModal(true)}>
-                <AddCircle fontSize="large" />
-              </IconButton>
-            </Grid>
-
             {techniqueCategory.length > 0 &&
               techniqueCategory.map((e) => {
                 return (
@@ -144,7 +156,10 @@ const TechniqueCategory = () => {
 
           <MuiModal
             open={addModal}
-            handleClose={() => setAddModal(false)}
+            handleClose={() => {
+              setAddModal(false);
+              setImage("");
+            }}
             title="Add Technique Category"
           >
             <form onSubmit={addTechniqueCategory}>
@@ -158,10 +173,34 @@ const TechniqueCategory = () => {
                   mb: "10px",
                 }}
               />
+              <TextField
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => videoRef.current.click()}
+                      >
+                        <GetApp />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ width: { xs: "100%", sm: "50%" }, height: "56px" }}
+                id="outlined-basic"
+                label="Image"
+                variant="outlined"
+                name="video"
+                value={typeof image === "object" ? image.name : image}
+              />
               <input
                 type="file"
-                name="image"
-                onChange={(e) => setImage(e.target.files[0])}
+                style={{ display: "none" }}
+                id="file"
+                ref={videoRef}
+                onChange={(e) => {
+                  setImage(e.target.files[0]);
+                }}
               />
               <Button
                 color="warning"
@@ -193,9 +232,36 @@ const TechniqueCategory = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
+              <TextField
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => videoRef.current.click()}
+                      >
+                        <GetApp />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ width: { xs: "100%" }, height: "56px" }}
+                id="outlined-basic"
+                label="Трейлер (видео)"
+                variant="outlined"
+                name="video"
+                value={
+                  typeof imageName === "object" ? imageName.name : imageName
+                }
+              />
               <input
                 type="file"
-                onChange={(e) => setImageName(e.target.files[0])}
+                style={{ display: "none" }}
+                id="file"
+                ref={videoRef}
+                onChange={(e) => {
+                  setImageName(e.target.files[0]);
+                }}
               />
               <Button
                 color="warning"

@@ -19,7 +19,7 @@ export default function AboutProductCard({
         <CardMedia
           component="img"
           height="150"
-          image={"https://www.motortrend.com/uploads/2023/04/1-2022-ram-1500-trx-ignition-edition.jpg"}
+          image = {`${import.meta.env.VITE_APP_API_URL}/Images/${aboutProductImage}`}
           alt={aboutProductImage}
         />
         <CardContent>

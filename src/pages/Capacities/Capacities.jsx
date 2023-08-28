@@ -20,6 +20,7 @@ const Capacities = () => {
   const handleModal = (obj) => {
     setEditModal(true);
     setIdx(obj.id);
+    console.log(obj.id);
     setFuelTank(obj.fuelTank);
     setCoolingSystem(obj.coolingSystem);
     setEngineOil(obj.engineOil);

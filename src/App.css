@@ -2,3 +2,8 @@
     min-width: 30px;
 }
 
+.swiper-pagination-bullet{
+    background-color: red !important;
+    height: 7px !important;
+    width: 7px !important;
+}

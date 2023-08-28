@@ -5,16 +5,15 @@ import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions, Tooltip } from "@mui/material";
 
 export default function TechniquecategoryCard({ name, img, children }) {
+  console.log(img);
   return (
     <Card sx={{ height: 300, mt: 10 }}>
       <CardActionArea>
         <CardMedia
           component="img"
           height="170"
-          image={
-            "https://www.motortrend.com/uploads/2023/04/1-2022-ram-1500-trx-ignition-edition.jpg"
-          }
-          alt={name}
+          image={`${import.meta.env.VITE_APP_API_URL}/Images/${img}` } 
+          alt={img}
         />
         <CardContent>
           <Tooltip title={name} arrow>

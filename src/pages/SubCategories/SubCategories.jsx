@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Title from "../../components/Title";
 import { axiosRequest } from "../../utils/axiosRequest";
 import {
@@ -6,6 +6,7 @@ import {
   FormControl,
   Grid,
   IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -19,6 +20,7 @@ import Delete from "@mui/icons-material/Delete";
 import Edit from "@mui/icons-material/Edit";
 
 import Circle from "../../components/Loaders/Circle";
+import { GetApp } from "@mui/icons-material";
 
 const SubCategories = () => {
   const [loader, setLoader] = useState(false);
@@ -31,6 +33,7 @@ const SubCategories = () => {
   const [imageName, setImageName] = useState("");
   const [name, setName] = useState("");
   const [fil, setFil] = useState(null);
+  const videoRef = useRef(null);
   const [specializedEquipment, setSpecializedEquipment] = useState([]);
 
   const handleModal = (obj) => {
@@ -84,8 +87,12 @@ const SubCategories = () => {
       setAddModal(false);
       setFil("");
       setLoader(false);
+
+      setImage("");
     } catch (error) {
       setLoader(false);
+
+      setImage("");
     }
   };
   const deleteSubCategories = async (id) => {
@@ -141,18 +148,22 @@ const SubCategories = () => {
       ) : (
         <>
           <Title>Sub Categories</Title>
+          <Grid item alignSelf="flex">
+            <IconButton color="warning" onClick={() => setAddModal(true)}>
+              <AddCircle fontSize="large" />
+            </IconButton>
+          </Grid>
           <Grid container spacing={2} direction="row">
-            <Grid item alignSelf="flex">
-              <IconButton color="warning" onClick={() => setAddModal(true)}>
-                <AddCircle fontSize="large" />
-              </IconButton>
-            </Grid>
-
             {categories.length > 0 &&
               categories.map((e) => {
                 return (
                   <Grid key={e.id} item xs={12} sm={6} md={4} lg={3}>
-                    <SubCategoriesCard name={e.name} img={e.imageName} specializedEquipmentId = {e.specializedEquipmentId} specializedEquipment = {specializedEquipment}>
+                    <SubCategoriesCard
+                      name={e.name}
+                      img={e.imageName}
+                      specializedEquipmentId={e.specializedEquipmentId}
+                      specializedEquipment={specializedEquipment}
+                    >
                       <IconButton
                         color="warning"
                         onClick={() => {
@@ -180,6 +191,7 @@ const SubCategories = () => {
             handleClose={() => {
               setAddModal(false);
               setFil("");
+              setImage("");
             }}
             title="Add Sub Categories"
           >
@@ -216,10 +228,34 @@ const SubCategories = () => {
                 </Select>
               </FormControl>
 
+              <TextField
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => videoRef.current.click()}
+                      >
+                        <GetApp />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ width: { xs: "100%", sm: "50%" }, height: "56px" }}
+                id="outlined-basic"
+                label="Image"
+                variant="outlined"
+                name="video"
+                value={typeof image === "object" ? image.name : image}
+              />
               <input
                 type="file"
-                name="image"
-                onChange={(e) => setImage(e.target.files[0])}
+                style={{ display: "none" }}
+                id="file"
+                ref={videoRef}
+                onChange={(e) => {
+                  setImage(e.target.files[0]);
+                }}
               />
               <Button
                 color="warning"
@@ -273,10 +309,36 @@ const SubCategories = () => {
                 </Select>
               </FormControl>
 
+              <TextField
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => videoRef.current.click()}
+                      >
+                        <GetApp />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ width: { xs: "100%" }, height: "56px" }}
+                id="outlined-basic"
+                label="Image"
+                variant="outlined"
+                name="video"
+                value={
+                  typeof imageName === "object" ? imageName.name : imageName
+                }
+              />
               <input
                 type="file"
-                name="image"
-                onChange={(e) => setImageName(e.target.files[0])}
+                style={{ display: "none" }}
+                id="file"
+                ref={videoRef}
+                onChange={(e) => {
+                  setImageName(e.target.files[0]);
+                }}
               />
               <Button
                 color="warning"

@@ -4,6 +4,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+
 import {
   Box,
   Button,
@@ -13,6 +14,14 @@ import {
   Modal,
   Tooltip,
 } from "@mui/material";
+
+// Import Swiper styles
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from 'swiper/modules';
+import "swiper/css";
+import 'swiper/css/pagination';
+import '../App.css'
+// Import Swiper styles
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 export default function ProductsCard({
   productName,
@@ -41,15 +50,24 @@ export default function ProductsCard({
   img,
 }) {
   const [info, setInfo] = useState(false);
+
   return (
     <>
-      <Card sx={{ height: 335, mt: 10 }}>
+      <Card sx={{ mt: 10 }}>
         <CardActionArea>
-          <CardMedia
-            component="img"
-            height="170"
-            image="https://www.motortrend.com/uploads/2023/04/1-2022-ram-1500-trx-ignition-edition.jpg"
-          />
+          <Swiper spaceBetween={50} pagination={true} modules={[Pagination]}>
+            {img.map((e) => {
+              return (
+                <SwiperSlide key={e.id}>
+                  <CardMedia
+                    component="img"
+                    height="170"
+                    image={`${import.meta.env.VITE_APP_API_URL}/images/${e}`}
+                  />
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
           <CardContent>
             <Tooltip title={productName} arrow>
               <Typography variant="h5" noWrap component="div">
@@ -176,7 +194,13 @@ export default function ProductsCard({
               );
             }
           })}
-          <Button color="warning" variant="contained" onClick={()=>setInfo(false)} sx={{ mt: 3 }} fullWidth>
+          <Button
+            color="warning"
+            variant="contained"
+            onClick={() => setInfo(false)}
+            sx={{ mt: 3 }}
+            fullWidth
+          >
             Close
           </Button>
         </MuiModal>

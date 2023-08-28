@@ -37,7 +37,6 @@ export default function Login() {
 
     try {
       const { data } = await axiosLogin.post("/Account/Login", user);
-
       if (data.data == " UserName or Password  is incorrect") {
         setMessage(data.data);
         setErrorm(true);

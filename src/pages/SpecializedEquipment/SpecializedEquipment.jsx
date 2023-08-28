@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Title from "../../components/Title";
 import { axiosRequest } from "../../utils/axiosRequest";
 import {
@@ -6,6 +6,7 @@ import {
   FormControl,
   Grid,
   IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -19,6 +20,7 @@ import Circle from "../../components/Loaders/Circle";
 
 import Delete from "@mui/icons-material/Delete";
 import Edit from "@mui/icons-material/Edit";
+import { GetApp } from "@mui/icons-material";
 const SpecializedEquipment = () => {
   const [specializedEquipment, setSpecializedEquipment] = useState([]);
   const [addModal, setAddModal] = useState(false);
@@ -29,6 +31,7 @@ const SpecializedEquipment = () => {
   const [techidx, setTechidx] = useState(null);
   const [imageName, setImageName] = useState("");
   const [name, setName] = useState("");
+  const videoRef = useRef(null);
   const [fil, setFil] = useState(null);
   const [techniqueCategory, setTechniqueCategory] = useState([]);
 
@@ -88,7 +91,9 @@ const SpecializedEquipment = () => {
       setAddModal(false);
       setFil("");
       setLoader(false);
+      setImage("");
     } catch (error) {
+      setImage("");
       setLoader(false);
     }
   };
@@ -141,18 +146,22 @@ const SpecializedEquipment = () => {
       ) : (
         <>
           <Title>Specialized Equipment</Title>
-          <Grid container spacing={2} direction="row">
             <Grid item alignSelf="flex">
               <IconButton color="warning" onClick={() => setAddModal(true)}>
                 <AddCircle fontSize="large" />
               </IconButton>
             </Grid>
-
+          <Grid container spacing={2} direction="row">
             {specializedEquipment.length > 0 &&
               specializedEquipment.map((e) => {
                 return (
                   <Grid key={e.id} item xs={12} sm={6} md={4} lg={3}>
-                    <SpecializedEquipmentCard name={e.name} img={e.imageName} techidx={e.techniqueCategoryId} tech = {techniqueCategory }>
+                    <SpecializedEquipmentCard
+                      name={e.name}
+                      img={e.imageName}
+                      techidx={e.techniqueCategoryId}
+                      tech={techniqueCategory}
+                    >
                       <IconButton
                         color="warning"
                         onClick={() => {
@@ -180,6 +189,8 @@ const SpecializedEquipment = () => {
             handleClose={() => {
               setAddModal(false);
               setFil("");
+
+              setImage("");
             }}
             title="Add Specialized Equipment"
           >
@@ -216,10 +227,34 @@ const SpecializedEquipment = () => {
                 </Select>
               </FormControl>
 
+              <TextField
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => videoRef.current.click()}
+                      >
+                        <GetApp />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ width: { xs: "100%", sm: "50%" }, height: "56px" }}
+                id="outlined-basic"
+                label="Image"
+                variant="outlined"
+                name="video"
+                value={typeof image === "object" ? image.name : image}
+              />
               <input
                 type="file"
-                name="image"
-                onChange={(e) => setImage(e.target.files[0])}
+                style={{ display: "none" }}
+                id="file"
+                ref={videoRef}
+                onChange={(e) => {
+                  setImage(e.target.files[0]);
+                }}
               />
               <Button
                 color="warning"
@@ -273,10 +308,34 @@ const SpecializedEquipment = () => {
                 </Select>
               </FormControl>
 
+              <TextField
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => videoRef.current.click()}
+                      >
+                        <GetApp />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ width: { xs: "100%" }, height: "56px" }}
+                id="outlined-basic"
+                label="Image"
+                variant="outlined"
+                name="video"
+                value={typeof imageName === "object" ? imageName.name : imageName}
+              />
               <input
                 type="file"
-                name="image"
-                onChange={(e) => setImageName(e.target.files[0])}
+                style={{ display: "none" }}
+                id="file"
+                ref={videoRef}
+                onChange={(e) => {
+                  setImageName(e.target.files[0]);
+                }}
               />
               <Button
                 color="warning"

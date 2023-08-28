@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Title from "../../components/Title";
 import { axiosRequest } from "../../utils/axiosRequest";
-import { Button, Grid, IconButton, TextField } from "@mui/material";
+import { Button, Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import AddCircle from "@mui/icons-material/AddCircle";
 import MuiModal from "../../components/Modal";
 import AboutProductCard from "../../components/AboutProductCard";
@@ -9,6 +9,7 @@ import AboutProductCard from "../../components/AboutProductCard";
 import Delete from "@mui/icons-material/Delete";
 import Edit from "@mui/icons-material/Edit";
 import Circle from "../../components/Loaders/Circle";
+import { GetApp } from "@mui/icons-material";
 const AboutProduct = () => {
   const [aboutProduct, setAboutProduct] = useState([]);
   const [addModal, setAddModal] = useState(false);
@@ -22,11 +23,13 @@ const AboutProduct = () => {
   const [adaptiveAbilityToWork, setAdaptiveAbilityToWork] = useState("");
   const [easeOfMaintenance, setEaseOfMaintenance] = useState("");
 
+  const videoRef = useRef(null)
   const [loader, setLoader] = useState(false);
 
   const handleModal = (obj) => {
     setEditModal(true);
     setIdx(obj.id);
+    setImageName(obj.aboutProductImage);
     setPowerSystem(obj.powerSystem);
     setTransmissionSystem(obj.transmissionSystem);
     setCabinandControls(obj.cabinandControls);
@@ -77,8 +80,10 @@ const AboutProduct = () => {
       getAboutProduct();
       setLoader(false);
       setAddModal(false);
+      setImage("")
     } catch (error) {
       setLoader(false);
+      setImage("")
     }
   };
 
@@ -99,13 +104,6 @@ const AboutProduct = () => {
   const editAboutProduct = async (event) => {
     event.preventDefault();
     setLoader(true);
-
-    // console.log(imageName);
-    // console.log(powerSystem);
-    // console.log(transmissionSystem);
-    // console.log(cabinandControls);
-    // console.log(adaptiveAbilityToWork);
-    // console.log(easeOfMaintenance);
 
     let updatedAboutProduct = new FormData();
     updatedAboutProduct.append("AboutProductImage", imageName);
@@ -140,12 +138,12 @@ const AboutProduct = () => {
       ) : (
         <>
           <Title>About Product</Title>
-          <Grid container spacing={2} direction="row">
             <Grid item alignSelf="flex">
               <IconButton color="warning" onClick={() => setAddModal(true)}>
                 <AddCircle fontSize="large" />
               </IconButton>
             </Grid>
+          <Grid container spacing={2} direction="row">
 
             {aboutProduct.length > 0 &&
               aboutProduct.map((e) => {
@@ -183,7 +181,7 @@ const AboutProduct = () => {
 
           <MuiModal
             open={addModal}
-            handleClose={() => setAddModal(false)}
+            handleClose={() =>{ setAddModal(false); setImage("")}}
             title="Add About Product"
           >
             <form onSubmit={addAboutProduct}>
@@ -237,10 +235,34 @@ const AboutProduct = () => {
                   mb: "10px",
                 }}
               />
+              <TextField
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => videoRef.current.click()}
+                      >
+                        <GetApp />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ width: { xs: "100%", sm: "50%" }, height: "56px" }}
+                id="outlined-basic"
+                label="Image"
+                variant="outlined"
+                name="video"
+                value={typeof image === "object" ? image.name : image}
+              />
               <input
                 type="file"
-                name="image"
-                onChange={(e) => setImage(e.target.files[0])}
+                style={{ display: "none" }}
+                id="file"
+                ref={videoRef}
+                onChange={(e) => {
+                  setImage(e.target.files[0]);
+                }}
               />
               <Button
                 color="warning"
@@ -320,10 +342,34 @@ const AboutProduct = () => {
                 value={easeOfMaintenance}
                 onChange={(e) => setEaseOfMaintenance(e.target.value)}
               />
+              <TextField
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => videoRef.current.click()}
+                      >
+                        <GetApp />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ width: { xs: "100%" }, height: "56px" }}
+                id="outlined-basic"
+                label="Image"
+                variant="outlined"
+                name="video"
+                value={typeof imageName === "object" ? imageName.name : imageName}
+              />
               <input
                 type="file"
-                name="image"
-                onChange={(e) => setImageName(e.target.files[0])}
+                style={{ display: "none" }}
+                id="file"
+                ref={videoRef}
+                onChange={(e) => {
+                  setImageName(e.target.files[0]);
+                }}
               />
               <Button
                 color="warning"

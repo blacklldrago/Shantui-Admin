@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Title from "../../components/Title";
 import { axiosRequest } from "../../utils/axiosRequest";
 import {
@@ -6,6 +6,7 @@ import {
   FormControl,
   Grid,
   IconButton,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -19,6 +20,7 @@ import Delete from "@mui/icons-material/Delete";
 import Edit from "@mui/icons-material/Edit";
 
 import Circle from "../../components/Loaders/Circle";
+import { GetApp } from "@mui/icons-material";
 
 const Products = () => {
   const [product, setProduct] = useState([]);
@@ -63,9 +65,11 @@ const Products = () => {
   const [techidx1, setTechidx1] = useState(null);
   const [aboutProductidx, setAboutProductidx] = useState(null);
   const [aboutProductidx1, setAboutProductidx1] = useState(null);
-
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState(null);
+  
+  const videoRef = useRef(null)
+
 
   const handleModal = (obj) => {
     setEditModal(true);
@@ -207,10 +211,27 @@ const Products = () => {
   };
 
   const addProduct = async (event) => {
+    console.log(image);
+    console.log(engineidx);
+    console.log(operatingCharacteristicsidx);
+    console.log(diamensionidx);
+    console.log(chassisidx);
+    console.log(capacitiesidx);
+    console.log(additionalInfoidx);
+    console.log(subCategoryidx);
+    console.log(specializedEquipmentidx);
+    console.log(techidx);
+    console.log(aboutProductidx);
+    let myImages = [...image]
+    console.log(myImages);
+
+    let ar = []
+    console.log(ar.length);
+
     event.preventDefault();
     setLoader(true);
     let newProduct = new FormData();
-    newProduct.append("ProductImages", image);
+    newProduct.append("ProductImages", myImages);
     newProduct.append("ProductName", event.target["productName"].value);
     newProduct.append("EngineId", engineidx);
     newProduct.append(
@@ -245,8 +266,10 @@ const Products = () => {
       setTechidx("");
       setAboutProductidx("");
       setLoader(false);
+      setImage("")
     } catch (error) {
       setLoader(false);
+      setImage("")
     }
   };
 
@@ -397,6 +420,7 @@ const Products = () => {
               setSpecializedEquipmentidx("");
               setTechidx("");
               setAboutProductidx("");
+              setImage("")
             }}
             title="Add Product"
           >
@@ -663,10 +687,35 @@ const Products = () => {
                 </Select>
               </FormControl>
 
+              <TextField
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => videoRef.current.click()}
+                      >
+                        <GetApp />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ width: { xs: "100%", sm: "50%" }, height: "56px" }}
+                id="outlined-basic"
+                label="Image"
+                variant="outlined"
+                name="video"
+                value={typeof image === "object" ? image.name : image}
+              />
               <input
                 type="file"
-                name="productImages"
-                onChange={(e) => setImage(e.target.files[0])}
+                style={{ display: "none" }}
+                id="file"
+                ref={videoRef}
+                onChange={(e) => {
+                  setImage(e.target.files);
+                }}
+                multiple = {true}
               />
               <Button
                 color="warning"
