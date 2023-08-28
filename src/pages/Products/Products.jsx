@@ -225,9 +225,6 @@ const Products = () => {
     let myImages = [...image]
     console.log(myImages);
 
-    let ar = []
-    console.log(ar.length);
-
     event.preventDefault();
     setLoader(true);
     let newProduct = new FormData();

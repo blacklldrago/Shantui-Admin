@@ -55,14 +55,14 @@ export default function ProductsCard({
     <>
       <Card sx={{ mt: 10 }}>
         <CardActionArea>
-          <Swiper spaceBetween={50} pagination={true} modules={[Pagination]}>
+          <Swiper spaceBetween={50} pagination={true} modules={[Pagination]} >
             {img.map((e) => {
               return (
                 <SwiperSlide key={e.id}>
                   <CardMedia
                     component="img"
                     height="170"
-                    image={`${import.meta.env.VITE_APP_API_URL}/images/${e}`}
+                    image={`${import.meta.env.VITE_APP_API_URL}/Images/${e}`}
                   />
                 </SwiperSlide>
               );
