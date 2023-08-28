@@ -67,9 +67,8 @@ const Products = () => {
   const [aboutProductidx1, setAboutProductidx1] = useState(null);
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState(null);
-  
-  const videoRef = useRef(null)
 
+  const videoRef = useRef(null);
 
   const handleModal = (obj) => {
     setEditModal(true);
@@ -222,7 +221,7 @@ const Products = () => {
     console.log(specializedEquipmentidx);
     console.log(techidx);
     console.log(aboutProductidx);
-    let myImages = [...image]
+    let myImages = [...image];
     console.log(myImages);
 
     event.preventDefault();
@@ -263,10 +262,10 @@ const Products = () => {
       setTechidx("");
       setAboutProductidx("");
       setLoader(false);
-      setImage("")
+      setImage("");
     } catch (error) {
       setLoader(false);
-      setImage("")
+      setImage("");
     }
   };
 
@@ -288,10 +287,11 @@ const Products = () => {
   const editProduct = async (event) => {
     event.preventDefault();
     setLoader(true);
+    let myImages = [...imageName];
+    console.log(myImages);
     let updatedProduct = new FormData();
-    updatedProduct.append("Id", imageName);
     updatedProduct.append("Id", idx);
-    updatedProduct.append("ProductImages", imageName);
+    updatedProduct.append("ProductImages", myImages);
     updatedProduct.append("ProductName", event.target["productName"].value);
     updatedProduct.append("EngineId", engineidx1);
     updatedProduct.append(
@@ -417,7 +417,7 @@ const Products = () => {
               setSpecializedEquipmentidx("");
               setTechidx("");
               setAboutProductidx("");
-              setImage("")
+              setImage("");
             }}
             title="Add Product"
           >
@@ -702,7 +702,13 @@ const Products = () => {
                 label="Image"
                 variant="outlined"
                 name="video"
-                value={typeof image === "object" ? image.name : image}
+                value={
+                  typeof image === "object"
+                    ? [...image].map((e) => {
+                        return e.name;
+                      })
+                    : image
+                }
               />
               <input
                 type="file"
@@ -712,7 +718,7 @@ const Products = () => {
                 onChange={(e) => {
                   setImage(e.target.files);
                 }}
-                multiple = {true}
+                multiple={true}
               />
               <Button
                 color="warning"
@@ -998,10 +1004,43 @@ const Products = () => {
                 </Select>
               </FormControl>
 
+              <TextField
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => videoRef.current.click()}
+                      >
+                        <GetApp />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{ width: { xs: "100%", sm: "50%" }, height: "56px" }}
+                id="outlined-basic"
+                label="Image"
+                variant="outlined"
+                name="video"
+                value={
+                  typeof imageName === "object" &&  typeof imageName[0] == "string"
+                    ? imageName.map((e) => {
+                        return e;
+                      })
+                    : [...imageName].map((e) => {
+                      return e.name;
+                    })
+                }
+              />
               <input
                 type="file"
-                name="productImages"
-                onChange={(e) => setImageName(e.target.files[0])}
+                style={{ display: "none" }}
+                id="file"
+                ref={videoRef}
+                onChange={(e) => {
+                  setImageName(e.target.files);
+                }}
+                multiple={true}
               />
               <Button
                 color="warning"
